@@ -80,8 +80,9 @@ const state = () => ({
   },
 })
 
-beforeEach(() => {
+beforeEach(async () => {
   vi.clearAllMocks()
+  await import('../lib/coach-demo.js')
   // Only what the demo and the poll use. Module loading and React's scheduler stay on real clocks.
   vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout', 'Date'] })
 })

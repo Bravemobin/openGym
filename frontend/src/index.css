@@ -121,7 +121,7 @@ html{
 }
 body{
   background:var(--bg);color:var(--label);
-  font-family:-apple-system,BlinkMacSystemFont,'SF Pro Text','SF Pro Display','Segoe UI',Roboto,system-ui,sans-serif;
+  font-family:-apple-system,BlinkMacSystemFont,'SF Pro Text','SF Pro Display','Vazirmatn','Vazir','Segoe UI',Roboto,system-ui,sans-serif;
   font-size:17px;line-height:1.29;letter-spacing:-.01em;
   min-height:100vh;min-height:100dvh;overscroll-behavior-y:none;overflow-x:clip;
   -webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;
@@ -1723,3 +1723,11 @@ body.chips-dragging *{cursor:inherit}
 [dir="rtl"] .hm-wrap,[dir="rtl"] .cal-grid{direction:ltr}
 /* Tight tracking is tuned for Latin; Arabic is a connected script and gets none. */
 [dir="rtl"] *{letter-spacing:0}
+
+.lang-seg{flex:none}
+.lang-seg.seg button{padding:4px 10px;font-size:13px;min-height:30px;font-weight:500}
+
+/* Persian (Farsi) typography - Vazir / Vazirmatn font */
+:root{--font-persian:'Vazirmatn','Vazir','Vazir FD','Sahel','Shabnam','Samim','Tahoma',system-ui,-apple-system,sans-serif}
+[lang="fa"],[lang="fa"] body,[lang="fa"] button,[lang="fa"] input,[lang="fa"] select,[lang="fa"] textarea,[lang="fa"] h1,[lang="fa"] h2,[lang="fa"] h3,[lang="fa"] h4,[lang="fa"] .seg button{font-family:var(--font-persian)}
+

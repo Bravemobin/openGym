@@ -1,12 +1,12 @@
 import { describe, it, expect } from 'vitest'
-import { MONDAY, SUNDAY, weekStartOf, weekOrder, weekDayOffset, startOfWeek, weekKey, isoOf } from './format.js'
+import { MONDAY, SUNDAY, SATURDAY, weekStartOf, weekOrder, weekDayOffset, startOfWeek, weekKey, isoOf } from './format.js'
 import { streakWeeks } from './history.js'
 import { muscleBalanceWindow } from './muscles.js'
 import { effortWeeks } from './effort.js'
 
 // 2026-08-19 is a Wednesday. Its Monday-first week runs Mon 17th → Sun 23rd; its Sunday-first
-// week runs Sun 16th → Sat 22nd. Every case below is picked so the two disagree — a date that
-// lands in the same week either way would pass without testing anything.
+// week runs Sun 16th → Sat 22nd; its Saturday-first week runs Sat 15th → Fri 21st.
+// Every case below is picked so the starts disagree.
 const WED = '2026-08-19'
 
 describe('weekStartOf', () => {
@@ -16,8 +16,9 @@ describe('weekStartOf', () => {
     expect(weekStartOf({ weekStart: undefined })).toBe(MONDAY)
   })
 
-  it('only 0 means Sunday — a junk value is not a third week shape', () => {
+  it('recognises Sunday and Saturday — a junk value falls back to Monday', () => {
     expect(weekStartOf({ weekStart: SUNDAY })).toBe(SUNDAY)
+    expect(weekStartOf({ weekStart: SATURDAY })).toBe(SATURDAY)
     expect(weekStartOf({ weekStart: 3 })).toBe(MONDAY)
     expect(weekStartOf({ weekStart: null })).toBe(MONDAY)
   })
@@ -27,6 +28,7 @@ describe('weekOrder', () => {
   it('lists all seven getDay() indices from the chosen start', () => {
     expect(weekOrder(MONDAY)).toEqual([1, 2, 3, 4, 5, 6, 0])
     expect(weekOrder(SUNDAY)).toEqual([0, 1, 2, 3, 4, 5, 6])
+    expect(weekOrder(SATURDAY)).toEqual([6, 0, 1, 2, 3, 4, 5])
   })
 })
 
@@ -36,6 +38,9 @@ describe('weekDayOffset', () => {
     expect(weekDayOffset(0, MONDAY)).toBe(6)    // Sunday closes a Monday-first week
     expect(weekDayOffset(0, SUNDAY)).toBe(0)
     expect(weekDayOffset(1, SUNDAY)).toBe(1)
+    expect(weekDayOffset(6, SATURDAY)).toBe(0)  // Saturday opens a Saturday-first week
+    expect(weekDayOffset(0, SATURDAY)).toBe(1)
+    expect(weekDayOffset(5, SATURDAY)).toBe(6)  // Friday closes a Saturday-first week
   })
 })
 
@@ -43,17 +48,20 @@ describe('startOfWeek', () => {
   it('walks back to the chosen first day', () => {
     expect(isoOf(startOfWeek(WED, MONDAY))).toBe('2026-08-17')
     expect(isoOf(startOfWeek(WED, SUNDAY))).toBe('2026-08-16')
+    expect(isoOf(startOfWeek(WED, SATURDAY))).toBe('2026-08-15')
   })
 
   it('leaves a date that already is the first day alone', () => {
     expect(isoOf(startOfWeek('2026-08-17', MONDAY))).toBe('2026-08-17')
     expect(isoOf(startOfWeek('2026-08-16', SUNDAY))).toBe('2026-08-16')
+    expect(isoOf(startOfWeek('2026-08-15', SATURDAY))).toBe('2026-08-15')
   })
 
   it('is noon local, so a DST jump cannot move it to the day before', () => {
     // Europe/Zurich springs forward on 2026-03-29, a Sunday.
     expect(isoOf(startOfWeek('2026-03-29', SUNDAY))).toBe('2026-03-29')
     expect(isoOf(startOfWeek('2026-03-29', MONDAY))).toBe('2026-03-23')
+    expect(isoOf(startOfWeek('2026-03-29', SATURDAY))).toBe('2026-03-28')
   })
 })
 
@@ -62,6 +70,9 @@ describe('weekKey', () => {
     // Sunday the 16th and Wednesday the 19th: one week Sunday-first, two Monday-first.
     expect(weekKey('2026-08-16', SUNDAY)).toBe(weekKey(WED, SUNDAY))
     expect(weekKey('2026-08-16', MONDAY)).not.toBe(weekKey(WED, MONDAY))
+    // Saturday the 15th and Wednesday the 19th: one week Saturday-first, two Sunday-first.
+    expect(weekKey('2026-08-15', SATURDAY)).toBe(weekKey(WED, SATURDAY))
+    expect(weekKey('2026-08-15', SUNDAY)).not.toBe(weekKey(WED, SUNDAY))
   })
 
   it('defaults to Monday when no start is passed', () => {

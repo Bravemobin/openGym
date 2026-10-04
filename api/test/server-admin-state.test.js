@@ -153,3 +153,59 @@ test('a pull shows as the last sync, in the list and the drill-down', async t =>
   row = (await h.get('/api/admin/users')).body.users.find(u => u.id === VICTIM);
   assert.ok(row.lastSync > Date.now());
 });
+
+test('GET /api/admin/activity-dashboard returns aggregated user activity metrics and feed', async t => {
+  const h = await startServer(t);
+  const now = Date.now();
+  const todayIso = new Date(now).toISOString().slice(0, 10);
+  const testWorkout = {
+    id: 'w_test_1',
+    name: 'Upper Hypertrophy',
+    d: todayIso,
+    start: now - 3600000,
+    end: now - 600000,
+    vol: 2500,
+    prs: [{ id: 'bench' }],
+    entries: [
+      { id: 'bench_press', name: 'Barbell Bench Press', sets: [{ w: 100, r: 10, done: true }, { w: 100, r: 8, done: true }] }
+    ]
+  };
+  h.plant({ _rev: 1, workouts: [testWorkout] });
+
+  // 1. Unauthenticated request refused
+  const unauth = await fetch(`${h.api}/api/admin/activity-dashboard`);
+  assert.equal(unauth.status, 401);
+
+  // 2. Admin request succeeds
+  const res = await h.get('/api/admin/activity-dashboard');
+  assert.equal(res.status, 200);
+  const data = res.body;
+
+  assert.ok(data.kpis, 'kpis present');
+  assert.equal(data.kpis.totalMembers, 2);
+  assert.equal(data.kpis.totalWorkoutsAllTime, 1);
+  assert.ok(Array.isArray(data.live), 'live array present');
+  assert.ok(Array.isArray(data.recentFeed), 'recentFeed array present');
+  assert.equal(data.recentFeed.length, 1);
+  assert.equal(data.recentFeed[0].name, 'Upper Hypertrophy');
+  assert.equal(data.recentFeed[0].userName, 'Mallory');
+  assert.equal(data.recentFeed[0].volume, 2500);
+  assert.equal(data.recentFeed[0].prsCount, 1);
+  assert.equal(data.recentFeed[0].exercises.length, 1);
+  assert.equal(data.recentFeed[0].exercises[0].name, 'Barbell Bench Press');
+
+  assert.ok(Array.isArray(data.dailyTrends), 'dailyTrends array present');
+  assert.equal(data.dailyTrends.length, 30);
+  const todayTrend = data.dailyTrends.find(d => d.date === todayIso);
+  assert.ok(todayTrend);
+  assert.equal(todayTrend.workoutsCount, 1);
+  assert.equal(todayTrend.activeUsersCount, 1);
+
+  assert.equal(data.dayOfWeekStats.length, 7);
+  assert.equal(data.hourOfDayStats.length, 24);
+  assert.ok(data.heatmap[todayIso] >= 1);
+  assert.ok(Array.isArray(data.users));
+  const victimUser = data.users.find(u => u.id === VICTIM);
+  assert.ok(victimUser);
+  assert.equal(victimUser.workouts, 1);
+});

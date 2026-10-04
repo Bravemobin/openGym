@@ -2218,6 +2218,264 @@ const routes = {
     });
   },
 
+  // Management & user activity dashboard: live floor, activity feed, attendance analytics and member stats.
+  'GET /api/admin/activity-dashboard': async (req, res) => {
+    if (!requireAdmin(req, res)) return;
+    const now = Date.now();
+    const DAY_MS = 86400000;
+
+    // 1. Live floor users
+    const liveUsers = [];
+    for (const u of db.users) {
+      const p = livePresence(u.id);
+      if (p) {
+        liveUsers.push({
+          userId: u.id,
+          userName: u.name,
+          email: PASSWORD_LOGIN ? (u.email || null) : null,
+          routineName: p.name || 'Workout',
+          exIdx: p.exIdx || 0,
+          exTotal: p.exTotal || 0,
+          setsDone: p.setsDone || 0,
+          setsTotal: p.setsTotal || 0,
+          startedAt: p.startedAt,
+          updatedAt: p.updatedAt
+        });
+      }
+    }
+
+    // 2. Aggregate across all users
+    let totalWorkoutsAllTime = 0;
+    let totalVolumeAllTime = 0;
+    let totalDurationMs = 0;
+    let durationCount = 0;
+
+    const activeUserToday = new Set();
+    const activeUser7d = new Set();
+    const activeUser30d = new Set();
+
+    // 30-day daily trends map: ISO day -> { date, workoutsCount, userIds: Set, totalVolume }
+    const dailyMap = new Map();
+    for (let i = 29; i >= 0; i--) {
+      const dStr = new Date(now - i * DAY_MS).toISOString().slice(0, 10);
+      dailyMap.set(dStr, { date: dStr, workoutsCount: 0, userIds: new Set(), totalVolume: 0 });
+    }
+
+    const dayOfWeekCounts = [0, 0, 0, 0, 0, 0, 0]; // 0=Mon, 6=Sun
+    const hourOfDayCounts = Array(24).fill(0);
+    const heatmap = {};
+    const allWorkoutsFlat = [];
+    const enrichedUsers = [];
+
+    for (const u of db.users) {
+      const S = readState(u.id) || {};
+      const userWorkouts = records(S.workouts);
+      const lastSync = lastSyncOf(u, S);
+
+      if (lastSync) {
+        if (now - lastSync < DAY_MS) activeUserToday.add(u.id);
+        if (now - lastSync < 7 * DAY_MS) activeUser7d.add(u.id);
+        if (now - lastSync < 30 * DAY_MS) activeUser30d.add(u.id);
+      }
+
+      let userVolume = 0;
+      let userLast30dWorkouts = 0;
+      let lastWorkoutTs = 0;
+      let lastWorkoutDate = null;
+
+      for (const w of userWorkouts) {
+        totalWorkoutsAllTime++;
+        const ts = w.start ? Number(w.start) : (w.d ? new Date(w.d).getTime() : 0);
+        if (ts > lastWorkoutTs) {
+          lastWorkoutTs = ts;
+          lastWorkoutDate = w.d || new Date(ts).toISOString();
+        }
+
+        const isoDay = (w.d && typeof w.d === 'string' && w.d.slice(0, 10)) || (ts ? new Date(ts).toISOString().slice(0, 10) : null);
+        const dur = Math.max(0, (w.end || w.start || ts) - (w.start || ts));
+        if (dur > 0 && dur < 6 * 3600 * 1000) {
+          totalDurationMs += dur;
+          durationCount++;
+        }
+
+        let wVol = typeof w.vol === 'number' && w.vol > 0 ? w.vol : 0;
+        let setsCount = 0;
+        const exercisesList = [];
+
+        if (Array.isArray(w.entries)) {
+          for (const e of w.entries) {
+            if (!e) continue;
+            let entrySetsDone = 0;
+            let maxWeight = 0;
+            if (Array.isArray(e.sets)) {
+              for (const s of e.sets) {
+                if (!s || !s.done || s.warmup || s.phase === 'warmup') continue;
+                entrySetsDone++;
+                setsCount++;
+                const wt = Number(s.w) || 0;
+                const r = Number(s.r) || 0;
+                if (!w.vol) {
+                  wVol += wt * r;
+                  if (Array.isArray(s.drops)) {
+                    for (const drop of s.drops) {
+                      wVol += (Number(drop.w) || 0) * (Number(drop.r) || 0);
+                    }
+                  }
+                }
+                if (wt > maxWeight) maxWeight = wt;
+              }
+            }
+            if (entrySetsDone > 0 || e.topW) {
+              exercisesList.push({
+                id: e.id,
+                name: e.name || e.id,
+                setsDone: entrySetsDone,
+                topWeight: maxWeight || e.topW || null
+              });
+            }
+          }
+        }
+
+        userVolume += wVol;
+        totalVolumeAllTime += wVol;
+
+        if (isoDay) {
+          heatmap[isoDay] = (heatmap[isoDay] || 0) + 1;
+        }
+
+        if (ts && now - ts < 30 * DAY_MS) {
+          userLast30dWorkouts++;
+          activeUser30d.add(u.id);
+        }
+        if (ts && now - ts < 7 * DAY_MS) {
+          activeUser7d.add(u.id);
+        }
+        if (ts && now - ts < DAY_MS) {
+          activeUserToday.add(u.id);
+        }
+
+        if (isoDay && dailyMap.has(isoDay)) {
+          const entry = dailyMap.get(isoDay);
+          entry.workoutsCount++;
+          entry.userIds.add(u.id);
+          entry.totalVolume += Math.round(wVol);
+        }
+
+        if (ts) {
+          const wDate = new Date(ts);
+          const dow = (wDate.getDay() + 6) % 7; // Mon=0 .. Sun=6
+          dayOfWeekCounts[dow]++;
+          const hod = wDate.getHours();
+          if (hod >= 0 && hod < 24) hourOfDayCounts[hod]++;
+        }
+
+        allWorkoutsFlat.push({
+          id: w.id,
+          userId: u.id,
+          userName: u.name,
+          userEmail: PASSWORD_LOGIN ? (u.email || null) : null,
+          name: w.name || 'Workout',
+          date: isoDay,
+          timestamp: ts,
+          durationMs: dur,
+          volume: Math.round(wVol),
+          setsDone: setsCount,
+          prsCount: Array.isArray(w.prs) ? w.prs.length : 0,
+          exercises: exercisesList.slice(0, 8),
+          note: w.note ? String(w.note).slice(0, 100) : null
+        });
+      }
+
+      // Calculate current streak in weeks (consecutive weeks with at least one workout)
+      const userWeeks = new Set();
+      for (const w of userWorkouts) {
+        const ts = w.start ? Number(w.start) : (w.d ? new Date(w.d).getTime() : 0);
+        if (ts) {
+          const d = new Date(ts);
+          const day = (d.getDay() + 6) % 7;
+          d.setDate(d.getDate() - day);
+          d.setHours(0, 0, 0, 0);
+          userWeeks.add(d.getTime());
+        }
+      }
+      let currentStreakWeeks = 0;
+      const thisMonday = new Date(now);
+      thisMonday.setDate(thisMonday.getDate() - ((thisMonday.getDay() + 6) % 7));
+      thisMonday.setHours(0, 0, 0, 0);
+      let checkWeek = thisMonday.getTime();
+      if (!userWeeks.has(checkWeek)) {
+        checkWeek -= 7 * DAY_MS;
+      }
+      while (userWeeks.has(checkWeek)) {
+        currentStreakWeeks++;
+        checkWeek -= 7 * DAY_MS;
+      }
+
+      enrichedUsers.push({
+        id: u.id,
+        name: u.name,
+        email: PASSWORD_LOGIN ? (u.email || null) : null,
+        created: u.created || null,
+        disabled: !!u.disabled,
+        admin: isAdmin(u),
+        invitedBy: u.invitedBy || null,
+        workouts: userWorkouts.length,
+        workoutsLast30d: userLast30dWorkouts,
+        totalVolume: Math.round(userVolume),
+        streakWeeks: currentStreakWeeks,
+        lastWorkout: lastWorkoutDate,
+        lastSync,
+        hasPush: db.subs.some(s => s.userId === u.id),
+        live: livePresence(u.id),
+        unit: S.unit || 'kg'
+      });
+    }
+
+    allWorkoutsFlat.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
+    const recentFeed = allWorkoutsFlat.slice(0, 50);
+
+    const dailyTrends = Array.from(dailyMap.values()).map(d => ({
+      date: d.date,
+      workoutsCount: d.workoutsCount,
+      activeUsersCount: d.userIds.size,
+      totalVolume: d.totalVolume
+    }));
+
+    const leaderboard = enrichedUsers
+      .filter(u => !u.disabled && u.workouts > 0)
+      .sort((a, b) => b.workoutsLast30d - a.workoutsLast30d || b.streakWeeks - a.streakWeeks || b.workouts - a.workouts)
+      .slice(0, 10);
+
+    const avgDurationMin = durationCount > 0 ? Math.round(totalDurationMs / durationCount / 60000) : 0;
+
+    const kpis = {
+      totalMembers: db.users.length,
+      liveNow: liveUsers.length,
+      dau: activeUserToday.size,
+      wau: activeUser7d.size,
+      mau: activeUser30d.size,
+      totalWorkoutsAllTime,
+      workoutsThisMonth: dailyTrends.reduce((sum, d) => sum + d.workoutsCount, 0),
+      totalVolumeAllTime: Math.round(totalVolumeAllTime),
+      avgWorkoutMinutes: avgDurationMin
+    };
+
+    json(res, 200, {
+      now,
+      kpis,
+      live: liveUsers,
+      recentFeed,
+      dailyTrends,
+      dayOfWeekStats: dayOfWeekCounts,
+      hourOfDayStats: hourOfDayCounts,
+      heatmap,
+      leaderboard,
+      users: enrichedUsers,
+      invite_only: INVITE_ONLY,
+      ...(PASSWORD_LOGIN ? { password_login: true } : {})
+    });
+  },
+
   'POST /api/admin/user/disable': async (req, res) => {
     const admin = requireAdmin(req, res); if (!admin) return;
     const body = await readBody(req);

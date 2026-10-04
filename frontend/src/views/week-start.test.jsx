@@ -72,13 +72,17 @@ const dayRows = () => [...host.querySelectorAll('.item .tt')].map(e => e.textCon
 describe('Settings — week starts on', () => {
   const mount = () => act(() => root.render(<Settings />))
 
-  it('offers Monday and Sunday and writes the getDay() index', () => {
+  it('offers Monday, Sunday, and Saturday and writes the getDay() index', () => {
     mount()
     expect(segButton('Monday').getAttribute('aria-pressed')).toBe('true')
     act(() => { segButton('Sunday').click() })
     expect(mocks.S.weekStart).toBe(0)
     mount()
     expect(segButton('Sunday').getAttribute('aria-pressed')).toBe('true')
+    act(() => { segButton('Saturday').click() })
+    expect(mocks.S.weekStart).toBe(6)
+    mount()
+    expect(segButton('Saturday').getAttribute('aria-pressed')).toBe('true')
     act(() => { segButton('Monday').click() })
     expect(mocks.S.weekStart).toBe(1)
   })
@@ -88,6 +92,7 @@ describe('Settings — week starts on', () => {
     mount()
     expect(segButton('Monday').getAttribute('aria-pressed')).toBe('true')
     expect(segButton('Sunday').getAttribute('aria-pressed')).toBe('false')
+    expect(segButton('Saturday').getAttribute('aria-pressed')).toBe('false')
   })
 })
 
@@ -105,6 +110,13 @@ describe('Plan — the week schedule follows the setting', () => {
     mount()
     expect(dayRows().slice(0, 7)).toEqual(
       ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'])
+  })
+
+  it('runs Saturday to Friday for a Saturday profile', () => {
+    mocks.S.weekStart = 6
+    mount()
+    expect(dayRows().slice(0, 7)).toEqual(
+      ['Saturday', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'])
   })
 
   it('keeps a routine attached to its day, not to its position in the list', () => {

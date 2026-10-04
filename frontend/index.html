@@ -4,16 +4,20 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
 <script>
-  // Set direction before first paint so an Arabic profile never flashes as LTR.
+  // Set direction before first paint so an Arabic or Persian profile never flashes as LTR.
   // The app re-applies this on every language change (lib/i18n.js setLang).
   // i18n-core RTL_LANGS is the runtime source of truth — keep this list in sync.
   try {
     var s = JSON.parse(localStorage.getItem('gym_state_v1') || '{}');
-    var l = s.lang || ((navigator.language || '').slice(0, 2) === 'ar' ? 'ar' : 'en');
+    var navLang = (navigator.language || '').slice(0, 2);
+    var l = s.lang || (navLang === 'ar' || navLang === 'fa' ? navLang : 'en');
     document.documentElement.lang = l;
-    document.documentElement.dir = l === 'ar' ? 'rtl' : 'ltr';
+    document.documentElement.dir = (l === 'ar' || l === 'fa') ? 'rtl' : 'ltr';
   } catch (e) {}
 </script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <title>openGym</title>
 <meta name="description" content="Personal gym & body weight tracker">
 <meta name="theme-color" content="#0c0e12">
