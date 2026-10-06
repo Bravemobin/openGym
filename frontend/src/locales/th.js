@@ -21,7 +21,8 @@ export default {
   'Plan': 'แผน',
   'Today': 'วันนี้',
   'Home': 'หน้าหลัก',
-  'Start': 'เริ่ม',
+
+  'Music': 'เพลง',  'Start': 'เริ่ม',
   'Resume': 'เล่นต่อ',
   'Stats': 'สถิติ',
   'Exercises': 'ท่าออกกำลังกาย',

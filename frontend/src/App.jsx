@@ -12,7 +12,7 @@ import { useStore } from "./store/useStore.js";
 import { useUI } from "./store/useUI.js";
 import { bindUI } from "./components/ui.jsx";
 import { ACCENTS, setWeightDecimals } from "./lib/format.js";
-import { setLang, useLang, baseLang } from "./lib/i18n.js";
+import { setLang, useLang, baseLang, getVersion, getLang } from "./lib/i18n.js";
 import { effectiveLang } from "./lib/default-lang.js";
 import { setPlayOnSilent, setVibrate } from "./lib/sound.js";
 import { setNav } from "./lib/nav.js";
@@ -46,6 +46,7 @@ import Muscles from "./views/Muscles.jsx";
 import StructuralBalance from "./views/StructuralBalance.jsx";
 import Settings from "./views/Settings.jsx";
 import Admin from "./views/Admin.jsx";
+import Music from "./views/Music.jsx";
 import CoachChat from "./views/CoachChat.jsx";
 import CoachIntake from "./views/CoachIntake.jsx";
 import CoachSetup from "./views/CoachSetup.jsx";
@@ -198,7 +199,8 @@ function Shell() {
   );
 
   const authed = user || isGuest;
-  if (!ready && !authed)
+  const langPending = getVersion() === 0 && lang !== "en" && getLang() !== lang;
+  if (langPending || (!ready && !authed))
     return (
       <div id="app">
         <div
@@ -244,6 +246,7 @@ function Shell() {
                 path="/structural-balance"
                 element={<StructuralBalance />}
               />
+              <Route path="/music" element={<Music />} />
               <Route path="/settings" element={<Settings />} />
               {/* The Coach screens gate themselves on the instance config; the routes exist
                   unconditionally so a deep link from a notification lands somewhere sane

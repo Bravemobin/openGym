@@ -181,7 +181,7 @@ export default function Settings() {
       if (ok)
         checkForUpdate()
           .then(setUpdateInfo)
-          .catch(() => {});
+          .catch(() => { });
     });
   }, []);
 
@@ -383,7 +383,7 @@ export default function Settings() {
             label: t("Merge them in"),
             onClick: () => apply(conflict),
           },
-          { icon: "xmark", label: t("Cancel"), onClick: () => {} },
+          { icon: "xmark", label: t("Cancel"), onClick: () => { } },
         ],
       });
       return;
@@ -472,23 +472,23 @@ export default function Settings() {
       title: t("Reset everything?"),
       message: user
         ? t(
-            "Deletes your plan, workouts, body weight, photos and videos from your profile on this server and on every signed-in device. This cannot be undone.",
-          )
+          "Deletes your plan, workouts, body weight, photos and videos from your profile on this server and on every signed-in device. This cannot be undone.",
+        )
         : t(
-            "Deletes your plan, workouts, body weight, photos and videos on this device. This cannot be undone.",
-          ),
+          "Deletes your plan, workouts, body weight, photos and videos on this device. This cannot be undone.",
+        ),
       confirmText: t("Delete everything"),
       danger: true,
       onConfirm: () => {
         if (user)
           api("/api/coach/forget", { method: "POST", body: "{}" }).catch(
-            () => {},
+            () => { },
           );
-        if (coachLocal?.mode === "byok") forgetCoach().catch(() => {});
+        if (coachLocal?.mode === "byok") forgetCoach().catch(() => { });
         resetAll();
         nav("/home");
         toast(t("All data reset"));
-        clearMediaAfterReset(!!user).catch(() => {});
+        clearMediaAfterReset(!!user).catch(() => { });
       },
     });
 
@@ -729,8 +729,8 @@ export default function Settings() {
               coachLocal?.mode === "server"
                 ? t("Runs on your openGym server")
                 : coachLocal?.mode === "byok"
-                ? t("Runs on this phone with your own API key")
-                : t("Off — choose how the Coach should run.")
+                  ? t("Runs on this phone with your own API key")
+                  : t("Off — choose how the Coach should run.")
             }
             onClick={() => nav("/coach/setup")}
           />
@@ -759,8 +759,8 @@ export default function Settings() {
             subtitle: INSTR_LANGS.includes(k)
               ? null
               : t(
-                  "Exercise instructions aren't available in this language yet — they stay in English.",
-                ),
+                "Exercise instructions aren't available in this language yet — they stay in English.",
+              ),
           }))}
         />
         {EXERCISE_NAME_LANGS.includes(baseLang(lang)) && (
@@ -916,8 +916,8 @@ export default function Settings() {
         footer={
           wakeOK
             ? t(
-                "The screen stays on while a workout is running, so you don’t have to unlock your phone between sets.",
-              )
+              "The screen stays on while a workout is running, so you don’t have to unlock your phone between sets.",
+            )
             : null
         }
       >
@@ -1306,7 +1306,7 @@ export default function Settings() {
           accessory="chevron"
           onClick={starterPlanSheet}
         />
-        <Row
+        {/* <Row
           icon="shuffle"
           iconTint="var(--teal)"
           title={t("Import from another app")}
@@ -1315,15 +1315,15 @@ export default function Settings() {
           )}
           accessory="chevron"
           onClick={() => importRef.current.click()}
-        />
-        <Row
+        /> */}
+        {/* <Row
           icon="key"
           iconTint="var(--teal)"
           title={t("Import from Hevy")}
           subtitle={t("Pull your history with a Hevy Pro API key")}
           accessory="chevron"
           onClick={importFromHevy}
-        />
+        /> */}
         <Row
           icon="upload"
           iconTint="var(--blue)"
@@ -1355,13 +1355,13 @@ export default function Settings() {
           subtitle={t('Saves a dated copy to Documents/openGym after finishing a workout or editing a routine, and keeps the newest {0} — point a sync app at that folder, or copy it out by hand.', 14)}>
           <Switch checked={!!S.autoBackup} onChange={v => update(s => { s.autoBackup = v })} />
         </Row>}
-        <Row
+        {/* <Row
           icon="trash"
           iconTint="var(--red)"
           title={t("Reset everything")}
           danger
           onClick={resetEverything}
-        />
+        /> */}
       </Section>
       <input
         ref={fileRef}
@@ -1399,11 +1399,11 @@ export default function Settings() {
               " " +
               (user
                 ? t(
-                    "Your data syncs with your profile — sign in anywhere to see it.",
-                  )
+                  "Your data syncs with your profile — sign in anywhere to see it.",
+                )
                 : t(
-                    "Guest data stays on this device — export a backup now and then!",
-                  ))
+                  "Guest data stays on this device — export a backup now and then!",
+                ))
             }
           />
         </Section>
@@ -1419,11 +1419,11 @@ export default function Settings() {
           footer={
             MOBILE
               ? t(
-                  "Releases are checked on gitlab.com. The download is verified against its checksum before the installer opens.",
-                )
+                "Releases are checked on gitlab.com. The download is verified against its checksum before the installer opens.",
+              )
               : t(
-                  "The web app updates together with your server. The Android app installs its own updates from here.",
-                )
+                "The web app updates together with your server. The Android app installs its own updates from here.",
+              )
           }
         >
           {MOBILE ? (
@@ -1466,7 +1466,7 @@ export default function Settings() {
         telling people to look for it, and where it was not. On the phone build there is no
         address bar and no about box, so without this there is no way to tell which build you
         are running, or whether an update actually installed. */}
-      <div
+      {/* <div
         className="dim small"
         style={{ textAlign: "center", marginTop: 4, lineHeight: 1.6 }}
       >
@@ -1485,7 +1485,7 @@ export default function Settings() {
         <a href="https://gymvisual.com/" target="_blank" rel="noopener">
           Gym visual
         </a>
-      </div>
+      </div> */}
     </div>
   );
 }
@@ -1734,7 +1734,7 @@ function PushCard({ S, update, toast }) {
           .then((sub) => {
             if (!gone) setOn(!!sub);
           })
-          .catch(() => {}),
+          .catch(() => { }),
       );
     return () => {
       gone = true;
@@ -1785,15 +1785,15 @@ function PushCard({ S, update, toast }) {
         footer={
           on && S.reminder?.on
             ? t(
-                "Only sent on days you have a routine planned and haven't logged a workout yet.",
-              ) +
-              (S.reminder?.tz
-                ? " " +
-                  t(
-                    "Timezone: {0} (auto-detected, updates if you travel).",
-                    S.reminder.tz,
-                  )
-                : "")
+              "Only sent on days you have a routine planned and haven't logged a workout yet.",
+            ) +
+            (S.reminder?.tz
+              ? " " +
+              t(
+                "Timezone: {0} (auto-detected, updates if you travel).",
+                S.reminder.tz,
+              )
+              : "")
             : null
         }
       >
@@ -1879,8 +1879,8 @@ function EquipmentCard({ S, update }) {
   // The plates you own, per unit (lib/plates.js) — what the set rows' plate lines load from.
   const plateSummary = ownsPlates(S)
     ? inventoryFor(S)
-        .map((p) => fmtPlate(p.w) + "×" + p.n)
-        .join(" · ") || t("None")
+      .map((p) => fmtPlate(p.w) + "×" + p.n)
+      .join(" · ") || t("None")
     : t("Standard set — tap to count the pairs you own.");
   return (
     <Section
@@ -1977,7 +1977,7 @@ async function clearMediaAfterReset(signedIn) {
     const now = useStore.getState();
     if (now.sync?.status === "ok" && now.config?.media)
       await api("/api/media/sweep", { method: "POST", body: "{}" }).catch(
-        () => {},
+        () => { },
       );
   }
   const keep =
@@ -2009,15 +2009,15 @@ function MediaRow() {
   const usage =
     remote && u && u.quotaBytes > 0
       ? t(
-          "{0} of {1} MB used on your server",
-          fmtMB((u.bytes || 0) / MB),
-          fmtMB(Math.round(u.quotaBytes / MB)),
-        )
+        "{0} of {1} MB used on your server",
+        fmtMB((u.bytes || 0) / MB),
+        fmtMB(Math.round(u.quotaBytes / MB)),
+      )
       : null;
   const sub = remote
     ? [usage, pending ? t("{0} waiting to upload", pending) : null]
-        .filter(Boolean)
-        .join(" · ") || undefined
+      .filter(Boolean)
+      .join(" · ") || undefined
     : t("Kept on this device only — Export with photos & videos keeps a copy.");
   return (
     <Row
@@ -2102,7 +2102,7 @@ function RegisterInline({ close, setUser, pushState, pullState, toast }) {
   useEffect(() => {
     api("/api/config")
       .then((c) => setInviteOnly(!!c.invite_only))
-      .catch(() => {});
+      .catch(() => { });
   }, []);
   const go = async () => {
     const n = (nameRef.current.value || "").trim();

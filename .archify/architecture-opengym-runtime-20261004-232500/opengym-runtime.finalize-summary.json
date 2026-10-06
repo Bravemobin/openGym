@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "ok": true,
+  "command": "finalize",
+  "status": "pass",
+  "type": "architecture",
+  "quality": "showcase",
+  "specification": {
+    "path": "C:\\Users\\Mobin\\Documents\\Projects\\openGym\\.archify\\architecture-opengym-runtime-20261004-232500\\candidate.json",
+    "sha256": "676f69eead43c73e5441a3c3f6d487b30478cca1668dcc89c015e210e2769c1b",
+    "bytes": 8254
+  },
+  "artifact": {
+    "path": "C:\\Users\\Mobin\\Documents\\Projects\\openGym\\.archify\\architecture-opengym-runtime-20261004-232500\\opengym-runtime.html",
+    "sha256": "99cffd6419d18ae20cc43309059e21f253b243a2233234107f61fbb9f9d34acc",
+    "bytes": 769165
+  },
+  "gates": {
+    "validate": "pass",
+    "deliver": "pass",
+    "check": "pass",
+    "browser-check": "pass"
+  },
+  "diagnostics": [],
+  "diagnosticSummary": {
+    "total": 0,
+    "shown": 0,
+    "truncated": false
+  },
+  "evidence": {
+    "receipt": "C:\\Users\\Mobin\\Documents\\Projects\\openGym\\.archify\\architecture-opengym-runtime-20261004-232500\\opengym-runtime.finalize.json",
+    "summaryReceipt": "C:\\Users\\Mobin\\Documents\\Projects\\openGym\\.archify\\architecture-opengym-runtime-20261004-232500\\opengym-runtime.finalize-summary.json",
+    "browserCheckReceipt": "C:\\Users\\Mobin\\Documents\\Projects\\openGym\\.archify\\architecture-opengym-runtime-20261004-232500\\opengym-runtime.browser-check.json"
+  },
+  "update": {
+    "status": "current",
+    "installedVersion": "3.0.1",
+    "availableVersion": "3.0.1",
+    "releaseNotes": null,
+    "checkedAt": "2026-10-04T20:00:37.433Z",
+    "source": "network",
+    "noticeRequired": false,
+    "noticeText": null
+  },
+  "visualReview": "not-requested",
+  "durationMs": 3932
+}

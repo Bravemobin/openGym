@@ -45,6 +45,7 @@ export const ADMIN_FA = {
   // Tabs & KPIs
   'Activity Feed': 'فید فعالیت',
   'Analytics': 'آمار و تحلیل',
+  'Music & Audio': 'موزیک و صدا',
   'Operations': 'عملیات',
   'Users': 'کاربران',
   'Live on Floor': 'زنده در سالن',

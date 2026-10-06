@@ -19,7 +19,8 @@ export default {
   'Plan': 'योजना',
   'Today': 'आज',
   'Home': 'होम',
-  'Start': 'शुरू',
+
+  'Music': 'संगीत',  'Start': 'शुरू',
   'Resume': 'जारी रखें',
   'Stats': 'आँकड़े',
   'Exercises': 'व्यायाम',

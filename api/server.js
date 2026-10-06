@@ -31,6 +31,7 @@ import {
 } from './passkeys-store.js';
 import { createDeviceLink, findDeviceLink, burnDeviceLink, dropDeviceLinks } from './device-link.js';
 import { createMediaStore, mediaLimits, mediaConfig, MediaError, HASH_RE } from './media.js';
+import { musicRoutes } from './music.js';
 
 const PORT = +(process.env.PORT || 3000);
 const DATA = process.env.DATA_DIR || '/data';
@@ -2603,7 +2604,10 @@ const routes = {
   /* ---------- photos & videos ---------- */
   // Absent, not refusing, when MEDIA_UPLOADS=0: a 404 is what a server from before the feature
   // answers, and the client already treats that as "this server does not store them".
-  ...(MEDIA_ON ? mediaRoutes : {})
+  ...(MEDIA_ON ? mediaRoutes : {}),
+
+  /* ---------- Music Player & Gym Audio ---------- */
+  ...musicRoutes({ DATA, json, readSession, requireAdmin, audit })
 };
 
 /* ---------- Coach: boot recovery, notifications, scheduled reviews ---------- */
@@ -2671,6 +2675,8 @@ const server = http.createServer(async (req, res) => {
   // above stays a plain lookup, and so csrfOk and the catch-all see one name for every file.
   const mm = /^\/api\/media\/([0-9a-f]{64})$/.exec(url.pathname);
   if (mm) { key = req.method + ' /api/media/{hash}'; req.mediaHash = mm[1]; }
+  const mf = /^\/api\/music\/file\/(.+)$/.exec(url.pathname);
+  if (mf) { key = req.method + ' /api/music/file/{filename}'; req.musicFilename = decodeURIComponent(mf[1]); }
   const handler = routes[key];
   if (!handler) return json(res, 404, { error: 'not found' });
   if (!csrfOk(req, key)) {

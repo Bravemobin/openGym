@@ -4,7 +4,7 @@ import { localTZ } from "../lib/format.js";
 import { t } from "../lib/i18n.js";
 import { registerCustom } from "../lib/exercises.js";
 import { DEMO, DEMO_SEEDED } from "../lib/demo.js";
-import { rememberDefaultLang } from "../lib/default-lang.js";
+import { rememberDefaultLang, cachedDefaultLang, matchLocale } from "../lib/default-lang.js";
 import { guestAllowed } from "../lib/guest.js";
 import {
   MOBILE,
@@ -251,8 +251,16 @@ const clone = (o) => JSON.parse(JSON.stringify(o));
 // picks a language.
 const detectedLang = () => {
   try {
-    const base = (navigator.language || "").toLowerCase().split("-")[0];
-    if (RTL_LANGS.has(base)) return base;
+    const seen = cachedDefaultLang();
+    if (seen && matchLocale(seen)) return matchLocale(seen);
+    const list =
+      navigator.languages && navigator.languages.length
+        ? navigator.languages
+        : [navigator.language];
+    for (const tag of list) {
+      const base = (tag || "").toLowerCase().split("-")[0];
+      if (RTL_LANGS.has(base)) return base;
+    }
   } catch (e) {
     /* ignore */
   }
@@ -1521,6 +1529,19 @@ export const useStore = create((set, get) => {
     config: null,
     async loadConfig() {
       if (get().config) return get().config;
+      if (typeof window !== "undefined" && window.__gymConfigPromise) {
+        try {
+          const c = await window.__gymConfigPromise;
+          window.__gymConfigPromise = null;
+          if (c) {
+            rememberDefaultLang(c);
+            set({ config: c });
+            return c;
+          }
+        } catch {
+          /* fallback to refreshConfig */
+        }
+      }
       return get().refreshConfig();
     },
     // Always asks. The cached copy is right for one boot, but an admin can switch the Coach on

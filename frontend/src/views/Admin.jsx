@@ -13,13 +13,14 @@ import LanguageSelect from '../components/LanguageSelect.jsx'
 import { getLang } from '../lib/i18n.js'
 import { tAdmin as t, relAdmin as rel, durAdmin as dur } from './admin-i18n.js'
 import AdminCoach from './AdminCoach.jsx'
+import AdminMusic from './AdminMusic.jsx'
 import '../admin.css'
 
 // The one time the reset code is visible. Locked, so a tap beside the sheet cannot lose it
 // before it has been copied or written down.
 function ResetCodeSheet({ name, email, code, expires, close }) {
   const toast = useUI(s => s.toast)
-  const copy = () => { navigator.clipboard?.writeText(code).catch(() => {}); toast(t('Copied')) }
+  const copy = () => { navigator.clipboard?.writeText(code).catch(() => { }); toast(t('Copied')) }
   return <>
     <h3>{t('Reset code for {name}', { name })}</h3>
     <div className="adm-lead">
@@ -143,7 +144,7 @@ function UserDetail({ id, onChanged, close }) {
 function InvitesCard({ invites, reload, inviteOnly }) {
   const toast = useUI(s => s.toast)
   const gen = () => api('/api/admin/invites/new', { method: 'POST', body: '{}' })
-    .then(({ invite }) => { navigator.clipboard?.writeText(invite.code).catch(() => {}); toast((getLang() === 'fa' ? 'کد ' : 'Code ') + invite.code + (getLang() === 'fa' ? ' ایجاد و کپی شد' : ' created & copied')); reload() })
+    .then(({ invite }) => { navigator.clipboard?.writeText(invite.code).catch(() => { }); toast((getLang() === 'fa' ? 'کد ' : 'Code ') + invite.code + (getLang() === 'fa' ? ' ایجاد و کپی شد' : ' created & copied')); reload() })
     .catch(e => toast(e.message))
   const revoke = code => confirmSheet({
     title: (getLang() === 'fa' ? `لغو کد ${code}؟` : `Revoke code ${code}?`),
@@ -152,7 +153,7 @@ function InvitesCard({ invites, reload, inviteOnly }) {
     onConfirm: () => api('/api/admin/invites/revoke', { method: 'POST', body: JSON.stringify({ code }) })
       .then(() => { toast(t('Code revoked')); reload() }).catch(e => toast(e.message))
   })
-  const copy = code => { navigator.clipboard?.writeText(code).catch(() => {}); toast((getLang() === 'fa' ? 'کپی شد ' : 'Copied ') + code) }
+  const copy = code => { navigator.clipboard?.writeText(code).catch(() => { }); toast((getLang() === 'fa' ? 'کپی شد ' : 'Copied ') + code) }
   const open = (invites || []).filter(i => !i.usedBy)
   const used = (invites || []).filter(i => i.usedBy)
   return <div className="card">
@@ -539,7 +540,7 @@ function ActivityFeedCard({ feed = [], openUser }) {
         <span className="small muted">{feed.length} {t('recent sessions')}</span>
       </div>
       <div className="adm-lead">{t('Chronological stream of workouts completed across the gym. Tap any workout for member history.')}</div>
-      
+
       {feed.length > 5 && (
         <input
           type="text"
@@ -864,11 +865,11 @@ export default function Admin() {
     })
     .catch(e => setUsersErr(e.message || 'Failed to load'))
 
-  const loadInvites = () => api('/api/admin/invites').then(d => setInvites(d.invites)).catch(() => {})
+  const loadInvites = () => api('/api/admin/invites').then(d => setInvites(d.invites)).catch(() => { })
 
   const loadActivity = () => api('/api/admin/activity-dashboard')
     .then(d => setActivityData(d))
-    .catch(() => {})
+    .catch(() => { })
 
   const reloadAll = () => {
     loadUsers()
@@ -932,7 +933,7 @@ export default function Admin() {
           )}
 
           <div className="adm-group-t" style={{ marginTop: 6 }}>{t('How to enable admin access:')}</div>
-          <ol style={{ fontSize: 13.5, color: 'var(--label-2)', lineHeight: 1.55, paddingLeft: 18, margin: '6px 0 16px' }}>
+          <ol style={{ fontSize: 13.5, color: 'var(--label-2)', lineHeight: 1.55, paddingRight: 18, margin: '6px 0 16px' }}>
             {user ? (
               getLang() === 'fa' ? (
                 <>
@@ -1030,6 +1031,15 @@ export default function Admin() {
       </button>
       <button
         role="tab"
+        aria-selected={tab === 'music'}
+        className={'adm-tab-btn' + (tab === 'music' ? ' active' : '')}
+        onClick={() => setTab('music')}
+      >
+        <Icon name="music" style={{ fontSize: 16 }} />
+        {t('Music & Audio')}
+      </button>
+      <button
+        role="tab"
         aria-selected={tab === 'operations'}
         className={'adm-tab-btn' + (tab === 'operations' ? ' active' : '')}
         onClick={() => setTab('operations')}
@@ -1051,6 +1061,10 @@ export default function Admin() {
 
     {tab === 'analytics' && (
       <AnalyticsSection activityData={activityData} users={users} openUser={openUser} />
+    )}
+
+    {tab === 'music' && (
+      <AdminMusic />
     )}
 
     {tab === 'operations' && (

@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "41ecb421-0553-4b35-8e7c-e26fda0ebbd2",
+  "status": "current",
+  "command": "deliver",
+  "type": "architecture",
+  "input": "C:\\Users\\Mobin\\Documents\\Projects\\openGym\\.archify\\architecture-opengym-runtime-20261004-232500\\candidate.json",
+  "output": "C:\\Users\\Mobin\\Documents\\Projects\\openGym\\.archify\\architecture-opengym-runtime-20261004-232500\\opengym-runtime.html",
+  "specification": {
+    "sha256": "676f69eead43c73e5441a3c3f6d487b30478cca1668dcc89c015e210e2769c1b",
+    "bytes": 8254
+  },
+  "artifact": {
+    "sha256": "99cffd6419d18ae20cc43309059e21f253b243a2233234107f61fbb9f9d34acc",
+    "bytes": 769165
+  }
+}

@@ -19,7 +19,8 @@ export default {
   'Plan': '계획',
   'Today': '오늘',
   'Home': '홈',
-  'Start': '시작',
+
+  'Music': '음악',  'Start': '시작',
   'Resume': '이어하기',
   'Stats': '통계',
   'Exercises': '운동',

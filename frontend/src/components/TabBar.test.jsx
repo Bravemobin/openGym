@@ -39,7 +39,7 @@ describe('the tab bar across a store write', () => {
   it('keeps the very same buttons instead of rebuilding them every tick', () => {
     act(() => { root.render(<TabBar onStart={() => {}} />) })
     const before = tabs()
-    expect(before).toHaveLength(5)
+    expect(before).toHaveLength(7)
 
     // What a rest does once a second: S is replaced, so everything reading it re-renders.
     act(() => { useStore.getState().update(s => { s.restSec = 91 }, false) })
@@ -53,10 +53,10 @@ describe('the tab bar across a store write', () => {
     act(() => { root.render(<TabBar onStart={() => {}} />) })
     expect(tabs()[0].className).toBe('on')
     expect(tabs()[1].className).toBe('')
-    expect(tabs()[2].className).toBe('start')
+    expect(tabs()[3].className).toBe('start')
 
     act(() => { useStore.getState().update(s => { s.active = { id: 'a', entries: [], cur: 0 } }, false) })
-    expect(tabs()[2].className).toBe('start rec')
+    expect(tabs()[3].className).toBe('start rec')
     expect(tabs()[0].className).toBe('on')
   })
 })

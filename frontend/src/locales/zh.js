@@ -19,7 +19,8 @@ export default {
   'Plan': '计划',
   'Today': '今天',
   'Home': '首页',
-  'Start': '开始',
+
+  'Music': '音乐',  'Start': '开始',
   'Resume': '继续',
   'Stats': '统计',
   'Exercises': '动作库',

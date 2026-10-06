@@ -20,6 +20,7 @@ export default {
   Plan: "برنامه",
   Today: "امروز",
   Home: "خانه",
+  Music: "موزیک",
   Start: "شروع",
   Resume: "ادامه",
   Stats: "آمار",

@@ -20,7 +20,8 @@ export default {
   'Plan': 'خطة',
   'Today': 'اليوم',
   'Home': 'الرئيسية',
-  'Start': 'بدء',
+
+  'Music': 'موسيقى',  'Start': 'بدء',
   'Resume': 'استئناف',
   'Stats': 'الإحصائيات',
   'Exercises': 'التمارين',

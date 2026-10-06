@@ -125,6 +125,13 @@ const P = {
   camera: <><path d="M3.6 8.8a2 2 0 0 1 2-2h1.9l1.3-2.1h6.4l1.3 2.1h1.9a2 2 0 0 1 2 2v8.4a2 2 0 0 1-2 2H5.6a2 2 0 0 1-2-2Z" /><circle cx="12" cy="12.8" r="3.3" /></>,
   image: <><rect x="3.6" y="4.8" width="16.8" height="14.4" rx="2.6" /><circle cx="8.6" cy="9.6" r="1.7" /><path d="m4.4 17.4 4.8-4.6 3.3 3 3-2.6 4.1 4" /></>,
   warning: <><path d="M12 3.4 21.2 19.4H2.8Z" /><path d="M12 9.6v4.4" /><circle cx="12" cy="16.6" r=".9" fill="currentColor" stroke="none" /></>,
+  music: <><circle cx="8" cy="16.5" r="2.8" /><circle cx="17.5" cy="14" r="2.8" /><path d="M10.8 16.5V5.5l9.5-2V14M10.8 9.5l9.5-2" /></>,
+  repeat: <><path d="m18 10 3-3-3-3M21 7H8a4 4 0 0 0-4 4v1M6 14l-3 3 3 3M3 17h13a4 4 0 0 0 4-4v-1" /></>,
+  volume: <><path d="M11 5 6 9H3v6h3l5 4V5Z" /><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 6a8.5 8.5 0 0 1 0 12" /></>,
+  volumeMute: <><path d="M11 5 6 9H3v6h3l5 4V5ZM21 9l-6 6M15 9l6 6" /></>,
+  forward: <><path d="M5 5v14l11-7ZM19 5v14" /></>,
+  backward: <><path d="M19 19V5L8 12ZM5 19V5" /></>,
+  heartFill: <path d="M12 20c-.4 0-.8-.1-1-.4l-6.2-6a4.6 4.6 0 0 1 0-6.6 4.4 4.4 0 0 1 6.2 0l1 1 1-1a4.4 4.4 0 0 1 6.2 0 4.6 4.6 0 0 1 0 6.6l-6.2 6c-.2.3-.6.4-1 .4Z" fill="currentColor" stroke="none" />,
 }
 
 // A few keys are aliases so call sites can say what they mean.
@@ -134,6 +141,10 @@ P.exercises = P.magnifier
 P.weight = P.scale
 P.streak = P.flame
 P.done = P.check
+P.musics = P.music
+P.audio = P.music
+P.next = P.forward
+P.prev = P.backward
 
 export const ICON_NAMES = Object.keys(P)
 

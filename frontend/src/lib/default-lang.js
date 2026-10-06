@@ -44,7 +44,7 @@ const CACHE_KEY = 'gym_default_lang'
 export function rememberDefaultLang(config) {
   try { localStorage.setItem(CACHE_KEY, typeof config?.default_lang === 'string' ? config.default_lang : '') } catch { /* ignore */ }
 }
-function cachedDefaultLang() {
+export function cachedDefaultLang() {
   try { return localStorage.getItem(CACHE_KEY) } catch { return null }
 }
 

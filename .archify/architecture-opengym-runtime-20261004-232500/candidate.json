@@ -1,0 +1,318 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "openGym Runtime Architecture",
+    "output": ".archify/architecture-opengym-runtime-20261004-232500/opengym-runtime.html",
+    "quality_profile": "showcase",
+    "repository": {
+      "url": "https://github.com/Bravemobin/openGym.git",
+      "provider": "github",
+      "revision": "cabac3940cfc437bd499e718da1cd7ed7efb1bf6"
+    }
+  },
+  "components": [
+    {
+      "id": "authenticator",
+      "type": "external",
+      "label": "WebAuthn Device",
+      "sublabel": "FIDO2 / Platform Biometrics",
+      "pos": [60, 100],
+      "size": [130, 60],
+      "sources": [
+        {
+          "path": "frontend/src/lib/api.js",
+          "line": 19,
+          "label": "PublicKeyCredential check"
+        }
+      ]
+    },
+    {
+      "id": "client",
+      "type": "external",
+      "label": "PWA Client",
+      "sublabel": "React 19 + Zustand",
+      "pos": [60, 270],
+      "size": [130, 60],
+      "sources": [
+        {
+          "path": "frontend/src/store/useStore.js",
+          "line": 314,
+          "label": "Zustand store"
+        }
+      ]
+    },
+    {
+      "id": "pwa_store",
+      "type": "database",
+      "label": "Client Storage",
+      "sublabel": "localStorage / SQLite",
+      "pos": [60, 440],
+      "size": [130, 60],
+      "sources": [
+        {
+          "path": "frontend/src/store/useStore.js",
+          "line": 609,
+          "label": "localStorage persistence"
+        }
+      ]
+    },
+    {
+      "id": "static_assets",
+      "type": "cloud",
+      "label": "Static Assets",
+      "sublabel": "SPA Build + ./media",
+      "pos": [320, 100],
+      "size": [130, 60],
+      "sources": [
+        {
+          "path": "docker-compose.yml",
+          "line": 9,
+          "label": "media service"
+        },
+        {
+          "path": "web/nginx.conf.template",
+          "line": 119,
+          "label": "static media caching"
+        }
+      ]
+    },
+    {
+      "id": "web_proxy",
+      "type": "cloud",
+      "label": "Reverse Proxy",
+      "sublabel": "Nginx Ingress :8080",
+      "pos": [320, 270],
+      "size": [130, 60],
+      "sources": [
+        {
+          "path": "docker-compose.yml",
+          "line": 68,
+          "label": "web service"
+        },
+        {
+          "path": "web/nginx.conf.template",
+          "line": 22,
+          "label": "reverse proxy rules"
+        }
+      ]
+    },
+    {
+      "id": "auth_guard",
+      "type": "security",
+      "label": "Auth Guard",
+      "sublabel": "HMAC Cookie / Passkey",
+      "pos": [590, 100],
+      "size": [130, 60],
+      "sources": [
+        {
+          "path": "api/server.js",
+          "line": 13,
+          "label": "WebAuthn server verification"
+        },
+        {
+          "path": "api/server.js",
+          "line": 95,
+          "label": "HMAC session secret"
+        }
+      ]
+    },
+    {
+      "id": "api_server",
+      "type": "backend",
+      "label": "API Server",
+      "sublabel": "Node.js HTTP :3000",
+      "pos": [590, 270],
+      "size": [130, 60],
+      "sources": [
+        {
+          "path": "docker-compose.yml",
+          "line": 37,
+          "label": "api container"
+        },
+        {
+          "path": "api/server.js",
+          "line": 2648,
+          "label": "HTTP dispatcher"
+        }
+      ]
+    },
+    {
+      "id": "push_service",
+      "type": "external",
+      "label": "Web Push Service",
+      "sublabel": "VAPID / Browser Push",
+      "pos": [590, 440],
+      "size": [130, 60],
+      "sources": [
+        {
+          "path": "api/server.js",
+          "line": 15,
+          "label": "web-push integration"
+        }
+      ]
+    },
+    {
+      "id": "file_storage",
+      "type": "database",
+      "label": "JSON State Store",
+      "sublabel": "Atomic /data Volume",
+      "pos": [860, 270],
+      "size": [130, 60],
+      "sources": [
+        {
+          "path": "api/server.js",
+          "line": 107,
+          "label": "atomicWrite helper"
+        },
+        {
+          "path": "api/server.js",
+          "line": 2058,
+          "label": "user state persistence"
+        }
+      ]
+    },
+    {
+      "id": "mcp_server",
+      "type": "backend",
+      "label": "MCP Server",
+      "sublabel": "stdio Read-only Bridge",
+      "pos": [860, 440],
+      "size": [130, 60],
+      "sources": [
+        {
+          "path": "mcp/src/index.js",
+          "line": 10,
+          "label": "MCP server entry"
+        }
+      ]
+    }
+  ],
+  "boundaries": [
+    {
+      "kind": "region",
+      "label": "Self-Hosted Docker Stack (:8080)",
+      "wraps": ["static_assets", "web_proxy", "auth_guard", "api_server", "file_storage"]
+    },
+    {
+      "kind": "security-group",
+      "label": "Internal Backend & Data Tier",
+      "wraps": ["auth_guard", "api_server", "file_storage"]
+    }
+  ],
+  "connections": [
+    {
+      "id": "client-to-proxy",
+      "from": "client",
+      "to": "web_proxy",
+      "label": "HTTPS :8080",
+      "variant": "emphasis"
+    },
+    {
+      "id": "proxy-to-api",
+      "from": "web_proxy",
+      "to": "api_server",
+      "label": "Proxy /api/data",
+      "variant": "emphasis"
+    },
+    {
+      "id": "api-to-storage",
+      "from": "api_server",
+      "to": "file_storage",
+      "label": "Atomic State Sync",
+      "variant": "emphasis"
+    },
+    {
+      "id": "client-to-auth",
+      "from": "client",
+      "to": "authenticator",
+      "label": "FIDO2 Assertion",
+      "variant": "security",
+      "fromSide": "top",
+      "toSide": "bottom"
+    },
+    {
+      "id": "client-to-cache",
+      "from": "client",
+      "to": "pwa_store",
+      "label": "Local Sync",
+      "variant": "dashed",
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "id": "proxy-to-assets",
+      "from": "web_proxy",
+      "to": "static_assets",
+      "label": "Serve /media",
+      "variant": "dashed",
+      "fromSide": "top",
+      "toSide": "bottom"
+    },
+    {
+      "id": "api-to-guard",
+      "from": "api_server",
+      "to": "auth_guard",
+      "label": "Verify Session",
+      "variant": "security",
+      "fromSide": "top",
+      "toSide": "bottom"
+    },
+    {
+      "id": "api-to-push",
+      "from": "api_server",
+      "to": "push_service",
+      "label": "VAPID Push",
+      "variant": "dashed",
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "id": "mcp-to-storage",
+      "from": "mcp_server",
+      "to": "file_storage",
+      "label": "Read /data",
+      "variant": "dashed",
+      "fromSide": "top",
+      "toSide": "bottom"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "emerald",
+      "title": "Primary Workout Sync Flow",
+      "items": [
+        "Offline-first PWA executes workouts locally via React 19 + Zustand and writes to localStorage",
+        "Changes debounce-sync over HTTPS to Nginx (:8080), which proxies /api/data to Node API (:3000)",
+        "API executes atomic temp-write and rename for state-<uid>.json under the bind-mounted /data volume"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "Trust Boundaries & Passkey Auth",
+      "items": [
+        "Passwordless FIDO2 / WebAuthn credentials verified via @simplewebauthn and bound to RP_ID",
+        "Signed session cookies HMAC'd with 32-byte DATA_DIR/secret (default 90-day validity)",
+        "Nginx enforces single origin, injects real client IP, and blocks framing (DENY + CSP frame-ancestors 'none')"
+      ]
+    },
+    {
+      "dot": "cyan",
+      "title": "External Integrations & Assets",
+      "items": [
+        "Web Push gateway dispatches rest-timer-over and daily reminder notifications via VAPID keys",
+        "One-shot media service pulls 140MB exercise image/GIF dataset from Git upstream into shared volume",
+        "Zero third-party telemetry, tracking pixels, or remote database services required"
+      ]
+    },
+    {
+      "dot": "violet",
+      "title": "MCP Assistant & Mobile Runtime",
+      "items": [
+        "Standalone MCP server provides read-only stdio bridge for Claude Desktop and Cursor directly from /data",
+        "Optional Capacitor shells wrap frontend into standalone Android/iOS APKs with native file mirroring",
+        "Admin dashboard exposes instance KPIs, member directory, and audit logs without external analytics"
+      ]
+    }
+  ]
+}

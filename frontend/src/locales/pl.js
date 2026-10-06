@@ -19,7 +19,8 @@ export default {
   'Plan': 'Plan',
   'Today': 'Dziś',
   'Home': 'Start',
-  'Start': 'Trenuj',
+
+  'Music': 'Muzyka',  'Start': 'Trenuj',
   'Resume': 'Wznów',
   'Stats': 'Statystyki',
   'Exercises': 'Ćwiczenia',

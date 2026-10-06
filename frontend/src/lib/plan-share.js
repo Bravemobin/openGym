@@ -20,7 +20,7 @@ import { MUSCLES, inMuscleOrder } from './muscles.js'
 
 const PLAN_FMT = 1
 const WEEK_DAYS = [1, 2, 3, 4, 5, 6, 0]   // every getDay() index; only the reader's own
-                                          // screen puts them in an order (see weekOrder)
+// screen puts them in an order (see weekOrder)
 const PLAN_UNITS = new Set(['kg', 'lb'])
 
 // A plan's numbers are in the unit that wrote it. Missing unit is deliberately legacy-compatible:
@@ -255,16 +255,16 @@ export function mergePlan(s, bundle, { schedule } = {}) {
   const source = convertedBundle(bundle, destination)
   s.customEx = s.customEx || []
   const exIdMap = {}
-  ;(source.customEx || []).forEach(c => {
-    const same = s.customEx.find(x => (x.n || '').toLowerCase() === (c.n || '').toLowerCase() && x.bp === c.bp)
-    if (same) { exIdMap[c.id] = same.id; return }
-    const nid = uid()
-    exIdMap[c.id] = nid
-    // Stored exactly as the form would have created it — `custom: true` is what lets the recipient
-    // edit or delete it, and `sm` mirrors the secondaries the way the form writes them.
-    const clean = cleanCustom(c)
-    s.customEx.push({ ...clean, id: nid, ...(clean.secondaries ? { sm: clean.secondaries } : {}), custom: true })
-  })
+    ; (source.customEx || []).forEach(c => {
+      const same = s.customEx.find(x => (x.n || '').toLowerCase() === (c.n || '').toLowerCase() && x.bp === c.bp)
+      if (same) { exIdMap[c.id] = same.id; return }
+      const nid = uid()
+      exIdMap[c.id] = nid
+      // Stored exactly as the form would have created it — `custom: true` is what lets the recipient
+      // edit or delete it, and `sm` mirrors the secondaries the way the form writes them.
+      const clean = cleanCustom(c)
+      s.customEx.push({ ...clean, id: nid, ...(clean.secondaries ? { sm: clean.secondaries } : {}), custom: true })
+    })
   const ridMap = {}
   source.routines.forEach(r => {
     const nid = uid()

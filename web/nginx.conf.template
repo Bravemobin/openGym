@@ -80,6 +80,24 @@ server {
         proxy_set_header CF-Connecting-IP "${CF_CONNECTING_IP}";
     }
 
+    # Music player and audio uploads (GET streams and POST uploads under api/music/).
+    location ^~ ${BASE_PATH}/api/music/ {
+        client_max_body_size 50m;
+        proxy_request_buffering off;
+        proxy_buffering off;
+        proxy_read_timeout 300s;
+        proxy_send_timeout 300s;
+        resolver ${RESOLVER} valid=10s ipv6=off;
+        set $api_upstream http://${BACKEND}:${PORT};
+        proxy_pass $api_upstream;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $remote_addr;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_set_header CF-Connecting-IP "${CF_CONNECTING_IP}";
+    }
+
     # The app routes behind the hash (/#/plan, /#/history …), so a path is never a screen, and the
     # shell's asset URLs are relative (vite base './' — the Pages demo lives under /demo/). Serving
     # index.html AT a deep path (/plan/r/x: a typo, a stale link) gave a page whose scripts resolved

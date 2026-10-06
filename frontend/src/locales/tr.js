@@ -19,7 +19,8 @@ export default {
   'Plan': 'Plan',
   'Today': 'Bugün',
   'Home': 'Ana sayfa',
-  'Start': 'Başla',
+
+  'Music': 'Müzik',  'Start': 'Başla',
   'Resume': 'Devam et',
   'Stats': 'İstatistik',
   'Exercises': 'Egzersizler',

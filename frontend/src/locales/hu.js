@@ -21,7 +21,8 @@ export default {
   'Plan': 'Terv',
   'Today': 'Ma',
   'Home': 'Kezdőlap',
-  'Start': 'Indítás',
+
+  'Music': 'Zene',  'Start': 'Indítás',
   'Resume': 'Folytatás',
   'Stats': 'Statisztika',
   'Exercises': 'Gyakorlatok',

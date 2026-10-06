@@ -20,7 +20,8 @@ export default {
   'Plan': 'Plan',
   'Today': 'Heute',
   'Home': 'Start',
-  'Start': 'Los',
+
+  'Music': 'Musik',  'Start': 'Los',
   'Resume': 'Weiter',
   'Stats': 'Statistik',
   'Exercises': 'Übungen',
