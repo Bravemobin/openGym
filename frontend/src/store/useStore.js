@@ -4,7 +4,11 @@ import { localTZ } from "../lib/format.js";
 import { t } from "../lib/i18n.js";
 import { registerCustom } from "../lib/exercises.js";
 import { DEMO, DEMO_SEEDED } from "../lib/demo.js";
-import { rememberDefaultLang, cachedDefaultLang, matchLocale } from "../lib/default-lang.js";
+import {
+  rememberDefaultLang,
+  cachedDefaultLang,
+  matchLocale,
+} from "../lib/default-lang.js";
 import { guestAllowed } from "../lib/guest.js";
 import {
   MOBILE,
@@ -171,7 +175,7 @@ export const DEF = {
   // First day of the week as a getDay() index — 1 Monday, 0 Sunday, 6 Saturday. Monday is the default so
   // every profile written before this setting existed keeps the week it has been looking at.
   // See lib/format.js: nothing reads this field directly, everything goes through the helpers.
-  weekStart: 1,
+  weekStart: 6,
   // Decimals on displayed weights: 1 by default, 2 for anyone loading quarter plates or
   // microplates (issue #139). Display only — nothing is stored or rounded differently.
   wdec: 1,

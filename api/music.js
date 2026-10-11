@@ -101,7 +101,7 @@ export function musicRoutes({ DATA, json, readSession, requireAdmin, audit }) {
       {
         id: 'trk_power_anthem',
         title: 'Power Workout Anthem',
-        artist: 'openGym Audio',
+        artist: 'emadgym Audio',
         category: 'Heavy Lifting',
         filename: 'power_anthem.wav',
         filesize: 0,
@@ -117,7 +117,7 @@ export function musicRoutes({ DATA, json, readSession, requireAdmin, audit }) {
       {
         id: 'trk_cardio_rush',
         title: 'High Energy Cardio Rush',
-        artist: 'openGym Audio',
+        artist: 'emadgym Audio',
         category: 'High Energy',
         filename: 'cardio_rush.wav',
         filesize: 0,
@@ -133,7 +133,7 @@ export function musicRoutes({ DATA, json, readSession, requireAdmin, audit }) {
       {
         id: 'trk_beast_mode',
         title: 'Beast Mode Bassline',
-        artist: 'openGym Audio',
+        artist: 'emadgym Audio',
         category: 'High Energy',
         filename: 'beast_mode.wav',
         filesize: 0,

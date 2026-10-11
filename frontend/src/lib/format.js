@@ -173,9 +173,9 @@ export function fmtAgo(ts, now = Date.now()) {
 export const MONDAY = 1;
 export const SUNDAY = 0;
 export const SATURDAY = 6;
-/** The profile's first weekday, defaulting to Monday for every state written before this. */
+/** The profile's first weekday, defaulting to SATURDAY for every state written before this. */
 export const weekStartOf = (S) =>
-  S?.weekStart === SUNDAY || S?.weekStart === SATURDAY ? S.weekStart : MONDAY;
+  S?.weekStart === SUNDAY || S?.weekStart === MONDAY ? S.weekStart : SATURDAY;
 /** getDay() indices in display order — [1..6,0] for a Monday start, [0..6] for a Sunday one. */
 export const weekOrder = (ws = MONDAY) =>
   Array.from({ length: 7 }, (_, i) => (ws + i) % 7);

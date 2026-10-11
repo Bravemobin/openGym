@@ -135,7 +135,7 @@ export const ADMIN_FA = {
   'Recognizing member dedication, weekly streaks, and total training volume.': 'تقدیر از تعهد اعضا، تداوم‌های هفتگی و کل حجم تمرینات.',
 
   // Access Required Screen
-  'You are currently using openGym in guest mode or not signed in. An admin profile is needed to manage live gym data.': 'شما در حال حاضر در حالت مهمان هستید یا وارد نشده‌اید. برای مدیریت داده‌های زنده باشگاه به نمایه مدیر نیاز است.',
+  'You are currently using emadgym in guest mode or not signed in. An admin profile is needed to manage live gym data.': 'شما در حال حاضر در حالت مهمان هستید یا وارد نشده‌اید. برای مدیریت داده‌های زنده باشگاه به نمایه مدیر نیاز است.',
   'YOUR USER ID:': 'شناسه کاربری شما:',
   'User ID copied': 'شناسه کاربری کپی شد',
   'How to enable admin access:': 'نحوه فعال‌سازی دسترسی مدیریت:',

@@ -181,7 +181,7 @@ export default function Settings() {
       if (ok)
         checkForUpdate()
           .then(setUpdateInfo)
-          .catch(() => { });
+          .catch(() => {});
     });
   }, []);
 
@@ -383,7 +383,7 @@ export default function Settings() {
             label: t("Merge them in"),
             onClick: () => apply(conflict),
           },
-          { icon: "xmark", label: t("Cancel"), onClick: () => { } },
+          { icon: "xmark", label: t("Cancel"), onClick: () => {} },
         ],
       });
       return;
@@ -472,23 +472,23 @@ export default function Settings() {
       title: t("Reset everything?"),
       message: user
         ? t(
-          "Deletes your plan, workouts, body weight, photos and videos from your profile on this server and on every signed-in device. This cannot be undone.",
-        )
+            "Deletes your plan, workouts, body weight, photos and videos from your profile on this server and on every signed-in device. This cannot be undone.",
+          )
         : t(
-          "Deletes your plan, workouts, body weight, photos and videos on this device. This cannot be undone.",
-        ),
+            "Deletes your plan, workouts, body weight, photos and videos on this device. This cannot be undone.",
+          ),
       confirmText: t("Delete everything"),
       danger: true,
       onConfirm: () => {
         if (user)
           api("/api/coach/forget", { method: "POST", body: "{}" }).catch(
-            () => { },
+            () => {},
           );
-        if (coachLocal?.mode === "byok") forgetCoach().catch(() => { });
+        if (coachLocal?.mode === "byok") forgetCoach().catch(() => {});
         resetAll();
         nav("/home");
         toast(t("All data reset"));
-        clearMediaAfterReset(!!user).catch(() => { });
+        clearMediaAfterReset(!!user).catch(() => {});
       },
     });
 
@@ -556,7 +556,7 @@ export default function Settings() {
                 iconTint="var(--indigo)"
                 title={t("Connect to my server")}
                 subtitle={t(
-                  "Sync this device to your own self-hosted openGym instead.",
+                  "Sync this device to your own self-hosted emadgym instead.",
                 )}
                 accessory="chevron"
                 onClick={connectServer}
@@ -596,7 +596,7 @@ export default function Settings() {
               <Row
                 icon="rocket"
                 iconTint="var(--indigo)"
-                title={t("Self-host openGym")}
+                title={t("Self-host emadgym")}
                 subtitle={t(
                   "Passkey sign-in, sync across your devices, your own data.",
                 )}
@@ -622,7 +622,7 @@ export default function Settings() {
                 iconTint="var(--blue)"
                 title={t("Pair the mobile app")}
                 subtitle={t(
-                  "Connect the openGym app on your phone to this account.",
+                  "Connect the emadgym app on your phone to this account.",
                 )}
                 accessory="chevron"
                 onClick={() =>
@@ -727,10 +727,10 @@ export default function Settings() {
             accessory="chevron"
             subtitle={
               coachLocal?.mode === "server"
-                ? t("Runs on your openGym server")
+                ? t("Runs on your emadgym server")
                 : coachLocal?.mode === "byok"
-                  ? t("Runs on this phone with your own API key")
-                  : t("Off — choose how the Coach should run.")
+                ? t("Runs on this phone with your own API key")
+                : t("Off — choose how the Coach should run.")
             }
             onClick={() => nav("/coach/setup")}
           />
@@ -759,8 +759,8 @@ export default function Settings() {
             subtitle: INSTR_LANGS.includes(k)
               ? null
               : t(
-                "Exercise instructions aren't available in this language yet — they stay in English.",
-              ),
+                  "Exercise instructions aren't available in this language yet — they stay in English.",
+                ),
           }))}
         />
         {EXERCISE_NAME_LANGS.includes(baseLang(lang)) && (
@@ -802,7 +802,7 @@ export default function Settings() {
             </Row>
           </>
         )}
-        <Row icon="scale" iconTint="var(--teal)" title={t("Weight unit")}>
+        {/* <Row icon="scale" iconTint="var(--teal)" title={t("Weight unit")}>
           <Segmented
             className="seg-inline"
             options={[
@@ -812,11 +812,11 @@ export default function Settings() {
             value={S.unit}
             onChange={(v) => switchUnit(v)}
           />
-        </Row>
+        </Row> */}
         {/* Cardio speed (Discord "miles per hour"). Unlike the weight unit this converts nothing:
           speeds stay stored in km/h and only what is shown and typed follows it (lib/speed.js).
           Until chosen it follows the weight unit, so a profile in pounds already reads mph. */}
-        <Row icon="figureRun" iconTint="var(--teal)" title={t("Speed unit")}>
+        {/* <Row icon="figureRun" iconTint="var(--teal)" title={t("Speed unit")}>
           <Segmented
             className="seg-inline"
             options={[
@@ -830,7 +830,7 @@ export default function Settings() {
               })
             }
           />
-        </Row>
+        </Row> */}
         {/* Display only: one decimal reads fine for plate-loadable numbers, two for anyone whose
           per-side figure lands on .25 or .75, or who loads microplates (issue #139). Nothing is
           stored or rounded differently — lib/format.js fmtNum just prints what is already there. */}
@@ -856,7 +856,7 @@ export default function Settings() {
         </Row>
         {/* Monday, Sunday, or Saturday — the Plan list, the Home strip, the calendar grid and every
           "this week" total follow it. Stored as a getDay() index (see lib/format.js). */}
-        <Row
+        {/* <Row
           icon="calendar"
           iconTint="var(--orange)"
           title={t("Week starts on")}
@@ -875,9 +875,9 @@ export default function Settings() {
               })
             }
           />
-        </Row>
+        </Row> */}
         {/* Membership QR codes on Home (views/CheckIn.jsx); off = no Home card, no route. */}
-        <Row
+        {/* <Row
           icon="qr"
           iconTint="var(--blue)"
           title={t("Gym check-in")}
@@ -891,7 +891,7 @@ export default function Settings() {
               })
             }
           />
-        </Row>
+        </Row> */}
         {/* The Home summary is optional; hiding it leaves weight logging, history and Stats intact. */}
         <Row
           icon="scale"
@@ -916,8 +916,8 @@ export default function Settings() {
         footer={
           wakeOK
             ? t(
-              "The screen stays on while a workout is running, so you don’t have to unlock your phone between sets.",
-            )
+                "The screen stays on while a workout is running, so you don’t have to unlock your phone between sets.",
+              )
             : null
         }
       >
@@ -1298,7 +1298,9 @@ export default function Settings() {
       </Section>
 
       {/* ---------- data: fill it, bring things over, back it up, wipe it ---------- */}
-      <Section title={t("Data")}>
+      {/* 14 is AUTO_BACKUP_KEEP in lib/mobile.js, written out because the Settings tests mock
+          that module wholesale; mobile.autobackup.test.js pins the two together. */}
+      {/* <Section title={t("Data")}>
         <Row
           icon="sparkles"
           iconTint="var(--acc)"
@@ -1306,7 +1308,7 @@ export default function Settings() {
           accessory="chevron"
           onClick={starterPlanSheet}
         />
-        {/* <Row
+        <Row
           icon="shuffle"
           iconTint="var(--teal)"
           title={t("Import from another app")}
@@ -1315,15 +1317,15 @@ export default function Settings() {
           )}
           accessory="chevron"
           onClick={() => importRef.current.click()}
-        /> */}
-        {/* <Row
+        />
+        <Row
           icon="key"
           iconTint="var(--teal)"
           title={t("Import from Hevy")}
           subtitle={t("Pull your history with a Hevy Pro API key")}
           accessory="chevron"
           onClick={importFromHevy}
-        /> */}
+        />
         <Row
           icon="upload"
           iconTint="var(--blue)"
@@ -1349,20 +1351,36 @@ export default function Settings() {
           />
         )}
         {hasMedia && <MediaRow />}
-        {/* 14 is AUTO_BACKUP_KEEP in lib/mobile.js, written out because the Settings tests mock
-          that module wholesale; mobile.autobackup.test.js pins the two together. */}
-        {MOBILE && <Row icon="history" iconTint="var(--blue)" title={t('Auto-backup on changes')}
-          subtitle={t('Saves a dated copy to Documents/openGym after finishing a workout or editing a routine, and keeps the newest {0} — point a sync app at that folder, or copy it out by hand.', 14)}>
-          <Switch checked={!!S.autoBackup} onChange={v => update(s => { s.autoBackup = v })} />
-        </Row>}
-        {/* <Row
+   
+        {MOBILE && (
+          <Row
+            icon="history"
+            iconTint="var(--blue)"
+            title={t("Auto-backup on changes")}
+            subtitle={t(
+              "Saves a dated copy to Documents/emadgym after finishing a workout or editing a routine, and keeps the newest {0} — point a sync app at that folder, or copy it out by hand.",
+              14,
+            )}
+          >
+            <Switch
+              checked={!!S.autoBackup}
+              onChange={(v) =>
+                update((s) => {
+                  s.autoBackup = v;
+                })
+              }
+            />
+          </Row>
+        )}
+        <Row
           icon="trash"
           iconTint="var(--red)"
           title={t("Reset everything")}
           danger
           onClick={resetEverything}
-        /> */}
-      </Section>
+        />
+      </Section> */}
+
       <input
         ref={fileRef}
         type="file"
@@ -1384,7 +1402,7 @@ export default function Settings() {
       />
 
       {/* "Add to Home screen" makes no sense inside the native app */}
-      {!MOBILE && (
+      {/* {!MOBILE && (
         <Section title={t("Tip")}>
           <Row
             icon="lightbulb"
@@ -1395,35 +1413,35 @@ export default function Settings() {
                 : t("In Safari: Share → Add to Home Screen")
             }
             subtitle={
-              t("to install openGym as a full-screen app.") +
+              t("to install emadgym as a full-screen app.") +
               " " +
               (user
                 ? t(
-                  "Your data syncs with your profile — sign in anywhere to see it.",
-                )
+                    "Your data syncs with your profile — sign in anywhere to see it.",
+                  )
                 : t(
-                  "Guest data stays on this device — export a backup now and then!",
-                ))
+                    "Guest data stays on this device — export a backup now and then!",
+                  ))
             }
           />
         </Section>
-      )}
+      )} */}
 
-      {/* ---------- updates: the last thing on the page, so keeping openGym current is one tap ----------
+      {/* ---------- updates: the last thing on the page, so keeping emadgym current is one tap ----------
         On Android the row is always there — it checks on demand and installs when a release is
         newer (checksum verified, see onUpdateRowClick). On the web the app updates with its
         server, so the row points at the APK for the phone instead. iOS has no APK: nothing. */}
-      {(!MOBILE || android) && (
+      {/* {(!MOBILE || android) && (
         <Section
           title={t("Updates")}
           footer={
             MOBILE
               ? t(
-                "Releases are checked on gitlab.com. The download is verified against its checksum before the installer opens.",
-              )
+                  "Releases are checked on gitlab.com. The download is verified against its checksum before the installer opens.",
+                )
               : t(
-                "The web app updates together with your server. The Android app installs its own updates from here.",
-              )
+                  "The web app updates together with your server. The Android app installs its own updates from here.",
+                )
           }
         >
           {MOBILE ? (
@@ -1432,7 +1450,7 @@ export default function Settings() {
               iconTint="var(--acc)"
               title={
                 updateInfo?.hasUpdate
-                  ? t("Update to openGym v{0}", updateInfo.latestVersion)
+                  ? t("Update to emadgym v{0}", updateInfo.latestVersion)
                   : t("Check for updates")
               }
               subtitle={
@@ -1460,7 +1478,7 @@ export default function Settings() {
             />
           )}
         </Section>
-      )}
+      )} */}
 
       {/* The version, at the bottom of Settings — which is where the support template has been
         telling people to look for it, and where it was not. On the phone build there is no
@@ -1470,7 +1488,7 @@ export default function Settings() {
         className="dim small"
         style={{ textAlign: "center", marginTop: 4, lineHeight: 1.6 }}
       >
-        openGym v{__APP_VERSION__} · {t("free & open source (AGPL v3)")}
+        emadgym v{__APP_VERSION__} · {t("free & open source (AGPL v3)")}
         <br />
         <a
           href="https://github.com/DuarteSantos8/openGym"
@@ -1734,7 +1752,7 @@ function PushCard({ S, update, toast }) {
           .then((sub) => {
             if (!gone) setOn(!!sub);
           })
-          .catch(() => { }),
+          .catch(() => {}),
       );
     return () => {
       gone = true;
@@ -1785,15 +1803,15 @@ function PushCard({ S, update, toast }) {
         footer={
           on && S.reminder?.on
             ? t(
-              "Only sent on days you have a routine planned and haven't logged a workout yet.",
-            ) +
-            (S.reminder?.tz
-              ? " " +
-              t(
-                "Timezone: {0} (auto-detected, updates if you travel).",
-                S.reminder.tz,
-              )
-              : "")
+                "Only sent on days you have a routine planned and haven't logged a workout yet.",
+              ) +
+              (S.reminder?.tz
+                ? " " +
+                  t(
+                    "Timezone: {0} (auto-detected, updates if you travel).",
+                    S.reminder.tz,
+                  )
+                : "")
             : null
         }
       >
@@ -1801,7 +1819,7 @@ function PushCard({ S, update, toast }) {
           icon="bell"
           iconTint="var(--red)"
           title={t("Push notifications")}
-          subtitle={t("Rest-timer alerts, even if openGym is closed.")}
+          subtitle={t("Rest-timer alerts, even if emadgym is closed.")}
         >
           <Switch checked={on} disabled={busy} onChange={toggle} />
         </Row>
@@ -1879,8 +1897,8 @@ function EquipmentCard({ S, update }) {
   // The plates you own, per unit (lib/plates.js) — what the set rows' plate lines load from.
   const plateSummary = ownsPlates(S)
     ? inventoryFor(S)
-      .map((p) => fmtPlate(p.w) + "×" + p.n)
-      .join(" · ") || t("None")
+        .map((p) => fmtPlate(p.w) + "×" + p.n)
+        .join(" · ") || t("None")
     : t("Standard set — tap to count the pairs you own.");
   return (
     <Section
@@ -1977,7 +1995,7 @@ async function clearMediaAfterReset(signedIn) {
     const now = useStore.getState();
     if (now.sync?.status === "ok" && now.config?.media)
       await api("/api/media/sweep", { method: "POST", body: "{}" }).catch(
-        () => { },
+        () => {},
       );
   }
   const keep =
@@ -2009,15 +2027,15 @@ function MediaRow() {
   const usage =
     remote && u && u.quotaBytes > 0
       ? t(
-        "{0} of {1} MB used on your server",
-        fmtMB((u.bytes || 0) / MB),
-        fmtMB(Math.round(u.quotaBytes / MB)),
-      )
+          "{0} of {1} MB used on your server",
+          fmtMB((u.bytes || 0) / MB),
+          fmtMB(Math.round(u.quotaBytes / MB)),
+        )
       : null;
   const sub = remote
     ? [usage, pending ? t("{0} waiting to upload", pending) : null]
-      .filter(Boolean)
-      .join(" · ") || undefined
+        .filter(Boolean)
+        .join(" · ") || undefined
     : t("Kept on this device only — Export with photos & videos keeps a copy.");
   return (
     <Row
@@ -2067,7 +2085,7 @@ function PairSheet({ close }) {
       <h3>{t("Pair the mobile app")}</h3>
       <div className="muted small" style={{ marginBottom: 14 }}>
         {t(
-          "On the openGym app, choose “Connect to my server”, then enter this address and the code below. It expires in 5 minutes.",
+          "On the emadgym app, choose “Connect to my server”, then enter this address and the code below. It expires in 5 minutes.",
         )}
       </div>
       {err ? (
@@ -2102,7 +2120,7 @@ function RegisterInline({ close, setUser, pushState, pullState, toast }) {
   useEffect(() => {
     api("/api/config")
       .then((c) => setInviteOnly(!!c.invite_only))
-      .catch(() => { });
+      .catch(() => {});
   }, []);
   const go = async () => {
     const n = (nameRef.current.value || "").trim();

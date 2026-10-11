@@ -44,7 +44,7 @@ async function precache() {
   if (!res.ok || res.redirected) throw new Error('precache: index.html ' + res.status + (res.redirected ? ' redirected' : ''))
   const html = await res.text()
   const refs = [...new Set([...html.matchAll(/(?:src|href)="([^"]+)"/g)].map(m => m[1])
-    .filter(u => /\.(?:js|css|png|svg|webmanifest|json)(?:\?|$)/.test(u) && !/^(?:https?:)?\/\//.test(u)))]
+    .filter(u => /\.(?:js|css|png|svg|webmanifest|json|woff2)(?:\?|$)/.test(u) && !/^(?:https?:)?\/\//.test(u)))]
   // The scripts and the stylesheets ARE the app. Every sub-resource used to be best-effort, so an
   // install that got index.html and lost one chunk to a flaky connection still activated, still
   // swept the build this device came from, and the next offline open was a shell with no code:
@@ -160,9 +160,9 @@ self.addEventListener('push', e => {
     // One alert per kind: a new rest-timer push replaces the last one instead of stacking
     // up in the tray (issue #172). `tag` alone should do that, but iOS keeps every one, so
     // the previous notification with the same tag is closed by hand first.
-    const tag = data.tag || 'opengym'
+    const tag = data.tag || 'emadgym'
     try { for (const n of await self.registration.getNotifications({ tag })) n.close() } catch {}
-    await self.registration.showNotification(data.title || 'openGym', {
+    await self.registration.showNotification(data.title || 'emadgym', {
       body: data.body || '',
       icon: 'icon-512.png',
       badge: 'icon-180.png',

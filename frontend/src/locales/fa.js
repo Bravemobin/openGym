@@ -309,8 +309,8 @@ export default {
     "تمرین‌های شما. وزنه‌های شما. پروفایل شما.",
   "Sign in with passkey": "ورود با کلید عبور",
   "Create new profile": "ایجاد پروفایل جدید",
-  "This browser doesn't support passkeys — you can still use openGym locally on this device.":
-    "این مرورگر از کلید عبور پشتیبانی نمی‌کند — همچنان می‌توانید از openGym به‌صورت محلی در این دستگاه استفاده کنید.",
+  "This browser doesn't support passkeys — you can still use emadgym locally on this device.":
+    "این مرورگر از کلید عبور پشتیبانی نمی‌کند — همچنان می‌توانید از emadgym به‌صورت محلی در این دستگاه استفاده کنید.",
   "This browser doesn't support passkeys, and this instance requires an account. Try a browser or device with passkey support.":
     "این مرورگر از کلید عبور پشتیبانی نمی‌کند و این نسخه نیاز به حساب کاربری دارد. مرورگر یا دستگاهی با پشتیبانی از کلید عبور را امتحان کنید.",
   "Continue without account": "ادامه بدون حساب کاربری",
@@ -355,8 +355,8 @@ export default {
   "Export backup (JSON)": "خروجی پشتیبان (JSON)",
   "Import backup": "درون‌ریزی نسخه پشتیبان",
   "Auto-backup on changes": "پشتیبان‌گیری خودکار هنگام تغییرات",
-  "Saves a dated copy to Documents/openGym after finishing a workout or editing a routine, and keeps the newest {0} — point a sync app at that folder, or copy it out by hand.":
-    "پس از پایان تمرین یا ویرایش روتین، یک نسخه تاریخ‌دار در Documents/openGym ذخیره می‌کند و {0} نسخه آخر را نگه می‌دارد — می‌توانید یک برنامه همگام‌سازی را به این پوشه متصل کنید یا فایل‌ها را دستی کپی نمایید.",
+  "Saves a dated copy to Documents/emadgym after finishing a workout or editing a routine, and keeps the newest {0} — point a sync app at that folder, or copy it out by hand.":
+    "پس از پایان تمرین یا ویرایش روتین، یک نسخه تاریخ‌دار در Documents/emadgym ذخیره می‌کند و {0} نسخه آخر را نگه می‌دارد — می‌توانید یک برنامه همگام‌سازی را به این پوشه متصل کنید یا فایل‌ها را دستی کپی نمایید.",
   "Reset everything?": "بازنشانی همه موارد؟",
   "Reset everything": "بازنشانی همه موارد",
   "Deletes your plan, workouts, body weight, photos and videos on this device. This cannot be undone.":
@@ -374,8 +374,8 @@ export default {
     "در Chrome: منوی ⋮ ← افزودن به صفحه اصلی",
   "In Safari: Share → Add to Home Screen":
     "در Safari: اشتراک‌گذاری ← افزودن به صفحه اصلی",
-  "to install openGym as a full-screen app.":
-    "برای نصب openGym به‌عنوان یک برنامه تمام‌صفحه.",
+  "to install emadgym as a full-screen app.":
+    "برای نصب emadgym به‌عنوان یک برنامه تمام‌صفحه.",
   "Your data syncs with your profile — sign in anywhere to see it.":
     "داده‌های شما با پروفایلتان همگام می‌شود — از هر کجا وارد شوید تا آن را ببینید.",
   "Guest data stays on this device — export a backup now and then!":
@@ -384,8 +384,8 @@ export default {
   Notifications: "اعلان‌ها",
   "Not supported in this browser.": "در این مرورگر پشتیبانی نمی‌شود.",
   "Push notifications": "اعلان‌های پوش",
-  "Rest-timer alerts, even if openGym is closed.":
-    "هشدارهای تایمر استراحت، حتی زمانی که openGym بسته است.",
+  "Rest-timer alerts, even if emadgym is closed.":
+    "هشدارهای تایمر استراحت، حتی زمانی که emadgym بسته است.",
   "Workout day reminder": "یادآور روز تمرین",
   "Reminder time": "زمان یادآوری",
   "Only sent on days you have a routine planned and haven't logged a workout yet.":
@@ -616,8 +616,8 @@ export default {
   "Send your routines to a friend, or put your week on paper.":
     "برنامه‌های تمرینی خود را برای دوستتان بفرستید، یا برنامه هفتگی‌تان را روی کاغذ چاپ کنید.",
   "Export plan file": "خروجی گرفتن از فایل برنامه",
-  "A small file a friend imports into their own openGym — routines only, none of your workouts or weigh-ins.":
-    "یک فایل کم‌حجم که دوستتان می‌تواند در openGym خود وارد کند — فقط برنامه‌ها، بدون ثبت‌های تمرینی یا وزنی شما.",
+  "A small file a friend imports into their own emadgym — routines only, none of your workouts or weigh-ins.":
+    "یک فایل کم‌حجم که دوستتان می‌تواند در emadgym خود وارد کند — فقط برنامه‌ها، بدون ثبت‌های تمرینی یا وزنی شما.",
   "Print / Save as PDF": "چاپ / ذخیره به‌صورت PDF",
   "A clean one-page-per-plan printout — no exercise ever splits across a page.":
     "چاپ مرتب تک‌صفحه‌ای برای هر برنامه — هیچ تمرینی در دو صفحه تقسیم نمی‌شود.",
@@ -644,15 +644,15 @@ export default {
   "Replaces your current Mon–Sun assignments.":
     "جایگزین زمان‌بندی فعلی دوشنبه تا یکشنبه شما می‌شود.",
   "Added {0} routines to your plan": "{0} برنامه تمرینی به برنامه شما اضافه شد",
-  "this isn’t an openGym plan file": "این یک فایل برنامه openGym نیست",
+  "this isn’t an emadgym plan file": "این یک فایل برنامه emadgym نیست",
   "Shared routine": "برنامه تمرینی مشترک",
   "Unknown exercise": "تمرین ناشناخته",
   "Weekly Training Plan": "برنامه تمرینی هفتگی",
-  "Made with openGym": "ساخته‌شده با openGym",
+  "Made with emadgym": "ساخته‌شده با emadgym",
   "Something went wrong": "مشکلی پیش آمد",
   "This screen could not be drawn. Your data is safe on this device.":
     "نمایش این صفحه با مشکل مواجه شد. داده‌های شما روی این دستگاه در امان است.",
-  "Reload openGym": "بارگذاری مجدد openGym",
+  "Reload emadgym": "بارگذاری مجدد emadgym",
   "Discard the running workout": "لغو تمرین در حال انجام",
   "Top set": "سنگین‌ترین ست",
   "Est. 1RM": "1RM تخمینی",
@@ -832,27 +832,27 @@ export default {
   "Disconnect from your server?": "اتصال از سرور قطع شود؟",
   "Disconnected — back to local-only": "اتصال قطع شد — بازگشت به حالت فقط محلی",
   "Connect to my server": "اتصال به سرور من",
-  "Sync this device to your own self-hosted openGym instead.":
-    "همگام‌سازی این دستگاه با نسخه شخصی میزبانی‌شده openGym.",
+  "Sync this device to your own self-hosted emadgym instead.":
+    "همگام‌سازی این دستگاه با نسخه شخصی میزبانی‌شده emadgym.",
   "Pair the mobile app": "اتصال به برنامه موبایل",
-  "Connect the openGym app on your phone to this account.":
-    "برنامه openGym روی گوشی خود را به این حساب متصل کنید.",
+  "Connect the emadgym app on your phone to this account.":
+    "برنامه emadgym روی گوشی خود را به این حساب متصل کنید.",
   "Could not generate a code": "امکان ایجاد کد وجود نداشت",
-  "On the openGym app, choose “Connect to my server”, then enter this address and the code below. It expires in 5 minutes.":
-    "در برنامه openGym، گزینه «اتصال به سرور من» را انتخاب کنید، سپس این آدرس و کد زیر را وارد نمایید. این کد پس از ۵ دقیقه منقضی می‌شود.",
+  "On the emadgym app, choose “Connect to my server”, then enter this address and the code below. It expires in 5 minutes.":
+    "در برنامه emadgym، گزینه «اتصال به سرور من» را انتخاب کنید، سپس این آدرس و کد زیر را وارد نمایید. این کد پس از ۵ دقیقه منقضی می‌شود.",
   "Enter your server address and the code": "آدرس سرور و کد را وارد کنید",
   Connected: "متصل شد",
   "Could not connect": "اتصال برقرار نشد",
-  "Open Settings → “Pair the mobile app” on the openGym site you’re already signed into, then enter its address and the code shown there.":
-    "در سایت openGym که قبلاً وارد آن شده‌اید، به تنظیمات ← «اتصال برنامه موبایل» بروید، سپس آدرس سایت و کد نمایش‌داده‌شده در آنجا را وارد کنید.",
+  "Open Settings → “Pair the mobile app” on the emadgym site you’re already signed into, then enter its address and the code shown there.":
+    "در سایت emadgym که قبلاً وارد آن شده‌اید، به تنظیمات ← «اتصال برنامه موبایل» بروید، سپس آدرس سایت و کد نمایش‌داده‌شده در آنجا را وارد کنید.",
   "Server address (e.g. gym.example.com)": "آدرس سرور (مثلاً gym.example.com)",
   "Pairing code": "کد اتصال",
   "Connecting…": "در حال اتصال…",
   Connect: "اتصال",
-  "How do you want to use openGym?": "چگونه می‌خواهید از openGym استفاده کنید؟",
+  "How do you want to use emadgym?": "چگونه می‌خواهید از emadgym استفاده کنید؟",
   "Use on this device": "استفاده در این دستگاه",
-  "Local keeps everything on this phone. Connecting syncs to your own openGym server instead — you can switch later in Settings.":
-    "حالت محلی همه‌چیز را روی همین گوشی نگه می‌دارد. در صورت اتصال، داده‌ها با سرور openGym خودتان همگام‌سازی می‌شود — بعداً می‌توانید در تنظیمات آن را تغییر دهید.",
+  "Local keeps everything on this phone. Connecting syncs to your own emadgym server instead — you can switch later in Settings.":
+    "حالت محلی همه‌چیز را روی همین گوشی نگه می‌دارد. در صورت اتصال، داده‌ها با سرور emadgym خودتان همگام‌سازی می‌شود — بعداً می‌توانید در تنظیمات آن را تغییر دهید.",
   "{0} — done": "{0} — انجام شد",
   "Workout done": "تمرین تمام شد",
   reps: "تکرارها",
@@ -1144,7 +1144,7 @@ export default {
   Provider: "ارائه‌دهنده",
   "Runs on this phone with your own API key":
     "اجرا روی این گوشی با کلید API شخصی شما",
-  "Runs on your openGym server": "اجرا روی سرور openGym خودتان",
+  "Runs on your emadgym server": "اجرا روی سرور emadgym خودتان",
   "Save and use the Coach": "ذخیره و استفاده از مربی",
   "The Coach is already thinking about your training.":
     "مربی از قبل در حال تحلیل تمرینات شماست.",
@@ -1158,7 +1158,7 @@ export default {
   "This phone calls the provider directly with your key. Every request is charged to your account.":
     "این گوشی با کلید شما مستقیماً ارائه‌دهنده را فراخوانی می‌کند. هزینه هر درخواست به حساب شما منظور می‌شود.",
   "Turn the Coach off on this phone": "خاموش کردن مربی روی این گوشی",
-  "Use my self-hosted openGym": "استفاده از openGym شخصی (خودمیزبان)",
+  "Use my self-hosted emadgym": "استفاده از emadgym شخصی (خودمیزبان)",
   "What leaves this phone": "چه اطلاعاتی از این گوشی خارج می‌شود",
   "When you ask for a plan or a review, this phone sends the following straight to {0}, using your own API key. You pay for every request.":
     "هنگامی که درخواست برنامه یا بازبینی می‌دهید، این گوشی موارد زیر را با استفاده از کلید API شخصی شما مستقیماً به {0} می‌فرستد. پرداخت هزینه هر درخواست بر عهده شماست.",
@@ -1553,7 +1553,7 @@ export default {
   "Check for updates": "بررسی به‌روزرسانی‌ها",
   "Checking…": "در حال بررسی…",
   "You have v{0}": "نسخه شما v{0} است",
-  "Update to openGym v{0}": "به‌روزرسانی به openGym نسخه {0}",
+  "Update to emadgym v{0}": "به‌روزرسانی به emadgym نسخه {0}",
   "You have the latest version.": "شما از آخرین نسخه استفاده می‌کنید.",
   "Could not check for updates — are you online?":
     "بررسی به‌روزرسانی‌ها ممکن نشد — آیا به اینترنت متصل هستید؟",
@@ -1661,15 +1661,15 @@ export default {
     "کارت وزن بدن در صفحه اصلی نمایش داده شود.",
   "This phone is not connected to a server.": "این گوشی به سروری متصل نیست.",
   "The server did not answer in time.": "سرور در زمان مقرر پاسخ نداد.",
-  "The server answered with something other than openGym data.":
-    "پاسخ سرور داده‌های مربوط به openGym نبود.",
+  "The server answered with something other than emadgym data.":
+    "پاسخ سرور داده‌های مربوط به emadgym نبود.",
   "All synced": "همه‌چیز همگام شد",
   "Waiting to sync": "در انتظار همگام‌سازی",
   "Offline — the server cannot be reached":
     "آفلاین — عدم امکان برقراری ارتباط با سرور",
-  "Not an openGym answer (HTTP {0})": "پاسخ از نوع openGym نیست (HTTP {0})",
-  "Your server’s address answered with something other than openGym (HTTP {0}). Your changes are kept here.":
-    "آدرس سرور شما پاسخی غیر از داده‌های openGym برگرداند (HTTP {0}). تغییرات شما در اینجا حفظ شده است.",
+  "Not an emadgym answer (HTTP {0})": "پاسخ از نوع emadgym نیست (HTTP {0})",
+  "Your server’s address answered with something other than emadgym (HTTP {0}). Your changes are kept here.":
+    "آدرس سرور شما پاسخی غیر از داده‌های emadgym برگرداند (HTTP {0}). تغییرات شما در اینجا حفظ شده است.",
   "Server error (HTTP {0})": "خطای سرور (HTTP {0})",
   "Your server answered with an error (HTTP {0}). Your changes are kept here.":
     "سرور شما پاسخی حاوی خطا ارسال کرد (HTTP {0}). تغییرات شما در اینجا حفظ شده است.",
@@ -1718,8 +1718,8 @@ export default {
     "اطلاعات شما از این مرورگر حذف می‌شود؛ اما پروفایل شما در سرور آن را حفظ می‌کند. ابتدا بررسی می‌شود که آیا سرور تمام تغییرات را دارد — در غیر این صورت، شما تعیین می‌کنید چه بلایی سر آن‌ها بیاید.",
   "Signs this profile out on every device, including this one. Phones paired with it are disconnected and have to be paired again. Your passkeys keep working — sign in with them again anytime.":
     "این پروفایل را از تمامی دستگاه‌ها، از جمله این دستگاه خارج می‌کند. گوشی‌های جفت‌شده قطع ارتباط می‌شوند و باید دوباره جفت گردند. کلیدهای عبور شما همچنان کار خواهند کرد — هر زمان خواستید دوباره با آن‌ها وارد شوید.",
-  "Open Settings → “Pair the mobile app” on your openGym site in a browser and enter the new code shown there. What this phone kept is merged into your account.":
-    "تنظیمات ← «جفت‌سازی برنامه موبایل» را در سایت openGym خود در مرورگر باز کنید و کد جدید نمایش‌داده‌شده در آنجا را وارد نمایید. تغییرات ذخیره‌شده در این گوشی با حساب شما ادغام خواهد شد.",
+  "Open Settings → “Pair the mobile app” on your emadgym site in a browser and enter the new code shown there. What this phone kept is merged into your account.":
+    "تنظیمات ← «جفت‌سازی برنامه موبایل» را در سایت emadgym خود در مرورگر باز کنید و کد جدید نمایش‌داده‌شده در آنجا را وارد نمایید. تغییرات ذخیره‌شده در این گوشی با حساب شما ادغام خواهد شد.",
   "{0} change": "{0} تغییر",
   "{0} changes": "{0} تغییر",
   "Planned sessions start from": "شروع جلسات برنامه‌ریزی‌شده بر اساس",
@@ -1794,7 +1794,7 @@ export default {
   "Same pattern, higher reps than day A.":
     "همان الگو، با تکرارهای بیشتر نسبت به روز A.",
   "Self-host it in a minute →": "در یک دقیقه خودتان میزبانی‌اش کنید ←",
-  "Self-host openGym": "میزبانی شخصی openGym",
+  "Self-host emadgym": "میزبانی شخصی emadgym",
   "Sessions have been running about fifteen minutes over. This is the accessory with the least to lose from one set fewer.":
     "جلسات حدود پانزده دقیقه طولانی‌تر از حد معمول شده‌اند. این حرکت کمکی کمترین تأثیر منفی را از کم کردن یک ست می‌بیند.",
   "Start the demo": "شروع دمو",
@@ -1804,8 +1804,8 @@ export default {
     "همان الگوها، با حرکات متفاوت — هم‌پوشانی کافی برای پیشرفت، تنوع کافی برای باطراوت ماندن تمرین.",
   "The two big lower-body and pressing patterns first, while you are fresh.":
     "دو الگوی اصلی پایین‌تنه و پرس در ابتدا، زمانی که بیشترین انرژی را دارید.",
-  "This demo runs entirely in your browser on example data — nothing is sent anywhere. Passkey sign-in and sync across your devices come with the openGym server, which you get by self-hosting it.":
-    "این دمو کاملاً در مرورگر شما با داده‌های نمونه اجرا می‌شود — هیچ چیز به جایی ارسال نمی‌شود. ورود با کلید عبور و همگام‌سازی میان دستگاه‌ها در سرور openGym ارائه می‌شود که با راه‌اندازی سرور شخصی به دست می‌آید.",
+  "This demo runs entirely in your browser on example data — nothing is sent anywhere. Passkey sign-in and sync across your devices come with the emadgym server, which you get by self-hosting it.":
+    "این دمو کاملاً در مرورگر شما با داده‌های نمونه اجرا می‌شود — هیچ چیز به جایی ارسال نمی‌شود. ورود با کلید عبور و همگام‌سازی میان دستگاه‌ها در سرور emadgym ارائه می‌شود که با راه‌اندازی سرور شخصی به دست می‌آید.",
   "Three things worth changing, and one worth knowing about. Everything else is working — the squat and the pulls are both progressing on schedule.":
     "سه مورد ارزش تغییر دارند و یک مورد ارزش دانستن دارد. سایر موارد به خوبی کار می‌کنند — هم اسکوات و هم حرکات کششی طبق برنامه پیش می‌روند.",
   "Vertical pressing.": "پرس عمودی.",
@@ -1849,8 +1849,8 @@ export default {
   "Speed unit": "واحد سرعت",
   "Account ID": "شناسه حساب",
   "Account ID copied": "شناسه حساب کپی شد",
-  "Android blocks unencrypted http:// connections from apps, so this phone can only reach an https:// endpoint. Put HTTPS in front of it (Tailscale or a reverse proxy), or choose “Use my self-hosted openGym”: your server can reach an http:// model on its own network.":
-    "اندروید اتصالات رمزگذاری‌نشده http:// از برنامه‌ها را مسدود می‌کند، بنابراین این گوشی فقط می‌تواند به آدرس https:// متصل شود. از HTTPS استفاده کنید (با Tailscale یا پروکسی معکوس)، یا گزینه «استفاده از openGym خودمیزبانی‌شده» را انتخاب کنید: سرور شما می‌تواند به مدل http:// در شبکه خودش دسترسی داشته باشد.",
+  "Android blocks unencrypted http:// connections from apps, so this phone can only reach an https:// endpoint. Put HTTPS in front of it (Tailscale or a reverse proxy), or choose “Use my self-hosted emadgym”: your server can reach an http:// model on its own network.":
+    "اندروید اتصالات رمزگذاری‌نشده http:// از برنامه‌ها را مسدود می‌کند، بنابراین این گوشی فقط می‌تواند به آدرس https:// متصل شود. از HTTPS استفاده کنید (با Tailscale یا پروکسی معکوس)، یا گزینه «استفاده از emadgym خودمیزبانی‌شده» را انتخاب کنید: سرور شما می‌تواند به مدل http:// در شبکه خودش دسترسی داشته باشد.",
   "Structural balance": "تعادل ساختاری",
   "See which lift is holding back the rest.":
     "ببینید کدام حرکت مانع پیشرفت سایر حرکات است.",
@@ -2019,8 +2019,8 @@ export default {
   Passkeys: "کلیدهای عبور",
   "Remove passkey": "حذف کلید عبور",
   "Remove this passkey?": "این کلید عبور حذف شود؟",
-  "Scan this with the other device, or open openGym there and enter the code on the sign-in screen. It works once, for {0} minutes.":
-    "این را با دستگاه دیگر اسکن کنید، یا openGym را در آنجا باز کرده و کد را در صفحه ورود وارد نمایید. این کد یک‌بار مصرف است و به مدت {0} دقیقه کار می‌کند.",
+  "Scan this with the other device, or open emadgym there and enter the code on the sign-in screen. It works once, for {0} minutes.":
+    "این را با دستگاه دیگر اسکن کنید، یا emadgym را در آنجا باز کرده و کد را در صفحه ورود وارد نمایید. این کد یک‌بار مصرف است و به مدت {0} دقیقه کار می‌کند.",
   "That code is wrong, used or expired — make a new one on your other device.":
     "این کد نادرست، قبلاً استفاده‌شده یا منقضی است — در دستگاه دیگر خود یک کد جدید بسازید.",
   "This browser cannot confirm with your passkey. Do this on a device that holds one.":
