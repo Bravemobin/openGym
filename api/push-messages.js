@@ -7,13 +7,13 @@ const COPY = {
     dayRoutineSuffix: 'today',
     dayBody: "It's on your plan — let's go 💪",
   },
-  'pt-BR': {
-    restTitle: 'Descanso terminado 💪',
-    restBody: 'Hora da próxima série.',
-    testBody: 'Notificação de teste ✅ — é assim que os alertas aparecem.',
-    dayFallbackTitle: 'Treino planejado para hoje',
-    dayRoutineSuffix: 'hoje',
-    dayBody: 'Está no seu plano — vamos treinar 💪',
+  fa: {
+    restTitle: 'استراحت تمام شد 💪',
+    restBody: 'زمان ست بعدی شماست.',
+    testBody: 'نوتیفیکیشن تستی ✅ — اعلان‌ها به این صورت نمایش داده می‌شوند.',
+    dayFallbackTitle: 'تمرین برنامه‌ریزی شده برای امروز',
+    dayRoutineSuffix: 'امروز',
+    dayBody: 'در برنامه شماست — بریم برای تمرین 💪',
   },
 };
 

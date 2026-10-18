@@ -1,6 +1,6 @@
 import { useStore } from '../store/useStore.js'
 import { effectiveLang } from '../lib/default-lang.js'
-import { setLang, useLang, LANGS, baseLang } from '../lib/i18n.js'
+import { setLang, useLang, baseLang } from '../lib/i18n.js'
 import { Segmented } from './ui.jsx'
 
 export default function LanguageSelect({ className = '' }) {
@@ -22,16 +22,10 @@ export default function LanguageSelect({ className = '' }) {
     )
   }
 
-  // Primary options: English and Persian using openGym Segmented control
   const options = [
     { value: 'en', label: 'English' },
     { value: 'fa', label: 'فارسی' }
   ]
-
-  // If another language is currently active (e.g. chosen from Settings), keep it visible
-  if (curLang && curLang !== 'en' && curLang !== 'fa') {
-    options.push({ value: curLang, label: LANGS[curLang] || curLang })
-  }
 
   return (
     <Segmented

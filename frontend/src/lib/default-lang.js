@@ -18,7 +18,7 @@ import { LANGS } from './i18n-core.js'
 
 const KEYS = Object.keys(LANGS)
 
-/** A language tag ('pt-BR', 'pt_br', 'de-AT', 'en-US') as one of LANGS' keys, or null. */
+/** A language tag ('fa', 'fa-IR', 'en-US') as one of LANGS' keys, or null. */
 export function matchLocale(tag) {
   if (typeof tag !== 'string') return null
   const want = tag.trim().replace(/_/g, '-').toLowerCase()

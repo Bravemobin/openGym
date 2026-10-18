@@ -5,94 +5,28 @@
 
 export const LANGS = {
   en: "English",
-  de: "Deutsch",
-  "de-CH": "Deutsch (Schweiz)",
-  es: "Español",
-  fr: "Français",
-  it: "Italiano",
-  pt: "Português (Portugal)",
-  "pt-BR": "Português (Brasil)",
-  pl: "Polski",
-  tr: "Türkçe",
-  ru: "Русский",
-  uk: "Українська",
-  zh: "中文",
-  ko: "한국어",
-  hi: "हिन्दी",
-  th: "ไทย",
-  hu: "Magyar",
-  ar: "العربية",
   fa: "فارسی",
 };
 export const INSTR_LANGS = [
   "en",
-  "es",
-  "fr",
-  "it",
-  "tr",
-  "ru",
-  "zh",
-  "hi",
-  "pl",
-  "ko",
-  "pt-BR",
-  "hu",
-  "ar",
   "fa",
 ];
 export const EXERCISE_NAME_LANGS = [
-  "pt-BR",
-  "hu",
-  "de",
-  "es",
-  "ru",
-  "it",
-  "fr",
   "fa",
 ];
 // Languages rendered right-to-left; i18n.js setLang applies the direction from this.
-export const RTL_LANGS = new Set(["ar", "fa"]);
+export const RTL_LANGS = new Set(["fa"]);
 export const DATE_LOCALES = {
   en: "en-GB",
-  de: "de-DE",
-  "de-CH": "de-CH",
-  es: "es-ES",
-  fr: "fr-FR",
-  it: "it-IT",
-  pt: "pt-PT",
-  "pt-BR": "pt-BR",
-  pl: "pl-PL",
-  tr: "tr-TR",
-  ru: "ru-RU",
-  uk: "uk-UA",
-  zh: "zh-CN",
-  ko: "ko-KR",
-  hi: "hi-IN",
-  th: "th-TH",
-  hu: "hu-HU",
-  ar: "ar-u-nu-latn",
   fa: "fa-IR-u-nu-latn",
 };
 
 // Locales derived from another language by a pure text transform rather than carried as their
-// own pack. Swiss Standard German has no ß — every one is written ss — so de-CH is de with a
-// single substitution. Deriving it keeps one German source of truth: a hand-maintained de-CH
-// would be 98.7% identical to de.js (16 of 1265 values differ), and check-locales.mjs would
-// then require every future German string to be written twice, forever.
-//
-// The transform is exact in this direction ONLY. Going back needs vowel length — "Maße" and
-// "Masse" both collapse to "Masse" — so de is always the base and never the derivative.
-//
-// Note this covers orthography, not vocabulary: a Swiss-specific word choice (Velo for
-// Fahrrad) would need a real pack. None of the current strings contain one.
-export const DERIVED_LOCALES = {
-  "de-CH": { base: "de", transform: (s) => s.replace(/ß/g, "ss") },
-};
+// own pack.
+export const DERIVED_LOCALES = {};
 
 // The language whose packs a locale actually loads: a derived locale reads its base's, every
-// other language its own. Used for the INSTR_LANGS/EXERCISE_NAME_LANGS membership tests too,
-// so de-CH gains instructions and exercise names exactly when de does, with no second entry
-// to remember to add.
+// other language its own.
 export const baseLang = (l) => DERIVED_LOCALES[l]?.base || l;
 
 // Applies a derived locale's transform to a loaded pack, returning it unchanged for a language
@@ -164,7 +98,7 @@ export const exerciseNameFor = (ex) => {
 // the English names ("supino com barra"). Left without the title-casing English gets, those
 // read all lower-case in every list, card and history row. A new pack goes here only when it
 // carries real casing; i18n-core.test.js checks this list against the packs themselves.
-export const CASED_NAME_LANGS = ["de"];
+export const CASED_NAME_LANGS = [];
 
 // EXDB stores English names lower-case and the UI title-cases them with CSS. A pack in
 // CASED_NAME_LANGS carries its own casing and must not be cased again on top, so the class that

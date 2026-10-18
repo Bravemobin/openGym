@@ -190,11 +190,10 @@ body {
   background: var(--bg);
   color: var(--label);
   font-family: "Vazirmatn", "Vazir", -apple-system, BlinkMacSystemFont,
-    "SF Pro Text", "SF Pro Display", "Segoe UI", Roboto, system-ui,
-    sans-serif;
+    "SF Pro Text", "SF Pro Display", "Segoe UI", Roboto, system-ui, sans-serif;
   font-size: 17px;
   line-height: 1.29;
-  font-feature-settings: "ss01";
+  /* font-feature-settings: "ss01"; */
   letter-spacing: -0.01em;
   min-height: 100vh;
   min-height: 100dvh;
@@ -4568,4 +4567,3 @@ textarea {
 [lang="fa"] .seg button {
   font-family: var(--font-persian);
 }
-

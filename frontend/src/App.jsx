@@ -50,6 +50,8 @@ import Music from "./views/Music.jsx";
 import CoachChat from "./views/CoachChat.jsx";
 import CoachIntake from "./views/CoachIntake.jsx";
 import CoachSetup from "./views/CoachSetup.jsx";
+import CoachDashboard from "./views/CoachPanel/CoachDashboard.jsx";
+import AthleteDiet from "./views/AthleteDiet.jsx";
 
 // last known scrollY per route, so back-navigation can put the page where it was
 const scrollPositions = new Map();
@@ -199,6 +201,7 @@ function Shell() {
   );
 
   const authed = user || isGuest;
+  const isCoach = !!user && (user.admin === true || user.role === "coach");
   const langPending = getVersion() === 0 && lang !== "en" && getLang() !== lang;
   if (langPending || (!ready && !authed))
     return (
@@ -227,6 +230,17 @@ function Shell() {
             <Login />
           ) : needsMobileOnboarding ? (
             <MobileOnboarding />
+          ) : isCoach ? (
+            <Routes>
+              <Route path="/coach-panel" element={<CoachDashboard />} />
+              <Route path="/admin" element={<Admin />} />
+              <Route path="/music" element={<Music />} />
+              <Route path="/settings" element={<Settings />} />
+              <Route
+                path="*"
+                element={<Navigate to="/coach-panel" replace />}
+              />
+            </Routes>
           ) : (
             <Routes>
               <Route path="/home" element={<Home />} />
@@ -236,18 +250,20 @@ function Shell() {
                 <Route path="/checkin" element={<CheckIn />} />
               )}
               <Route path="/plan" element={<Plan />} />
+              <Route path="/diet" element={<AthleteDiet />} />
               <Route path="/plan/r/:id" element={<RoutineEdit />} />
               <Route path="/workout" element={<Workout />} />
+              <Route path="/admin" element={<Admin />} />
               <Route path="/stats" element={<Stats />} />
               <Route path="/history" element={<History />} />
-              <Route path="/library" element={<Library />} />
+              <Route path="/library" element={<Navigate to="/home" replace />} />
               <Route path="/muscles" element={<Muscles />} />
               <Route
                 path="/structural-balance"
                 element={<StructuralBalance />}
               />
               <Route path="/music" element={<Music />} />
-              <Route path="/settings" element={<Settings />} />
+              <Route path="/settings" element={user?.admin ? <Settings /> : <Navigate to="/home" replace />} />
               {/* The Coach screens gate themselves on the instance config; the routes exist
                   unconditionally so a deep link from a notification lands somewhere sane
                   rather than on the catch-all. */}
@@ -258,7 +274,6 @@ function Shell() {
                 element={<Navigate to="/coach" replace />}
               />
               <Route path="/coach/setup" element={<CoachSetup />} />
-              <Route path="/admin" element={<Admin />} />
               <Route path="*" element={<Navigate to="/home" replace />} />
             </Routes>
           )}
@@ -269,7 +284,7 @@ function Shell() {
           including on the sign-in screen, when the server has just ended the session. */}
       <SyncBanner />
       {/* The chat owns the bottom of the screen: its composer sits where the tabs would be. */}
-      {loc.pathname !== "/coach" && <TabBar onStart={startFlow} />}
+      {loc.pathname !== "/coach" && !isCoach && <TabBar onStart={startFlow} />}
       <RestTimer />
       <Modals />
       <Toast />

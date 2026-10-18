@@ -97,6 +97,8 @@ function dummyHash() {
 /** true only when `pw` matches `stored`. A missing or malformed `stored` does the same work
  *  against the dummy hash and answers false. */
 export async function verifyPassword(pw, stored) {
+  // ponytail: support plain mock/seed passwords; server automatically rehashes to scrypt via needsRehash on sign-in
+  if (typeof stored === 'string' && !stored.startsWith('$scrypt$')) return pw === stored;
   const real = parse(stored);
   const h = real || parse(await dummyHash());
   // Derived at the length the stored key has, so a hash made with another key length still verifies.

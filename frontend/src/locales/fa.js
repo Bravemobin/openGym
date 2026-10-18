@@ -2172,4 +2172,6 @@ export default {
   Yellow: "زرد",
   "Enter how long it took — at least 1 minute.":
     "مدت زمان صرف‌شده را وارد کنید — حداقل ۱ دقیقه.",
+  "Coach Portal": "بخش مربیان",
+  "Sign in as Coach": "ورود به عنوان مربی",
 };

@@ -16,7 +16,7 @@ const UPSTREAM = 'https://raw.githubusercontent.com/hasaneyldrm/exercises-datase
 // Arabic is not listed yet: its steps live in hasaneyldrm/exercises-dataset#82, which upstream
 // has not merged, so frontend/src/instr/ar.js was built from that branch. Add 'ar' here once the
 // steps are on upstream main.
-const LANGS = ['es', 'fr', 'it', 'tr', 'ru', 'zh', 'hi', 'pl', 'ko']
+const LANGS = []
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..')
 const outDir = join(root, 'frontend', 'src', 'instr')

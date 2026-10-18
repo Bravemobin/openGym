@@ -13,14 +13,36 @@ import { glyphOf, DEFAULT_GLYPH } from '../lib/glyphs.js'
 import { DEMO } from '../lib/demo.js'
 import { MOBILE } from '../lib/mobile.js'
 import { coachAvailable } from '../lib/coach.js'
+import AthletePaywall from '../components/AthletePaywall.jsx'
+import { useUI } from '../store/useUI.js'
 
 export default function Plan() {
   const nav = useNavigate()
   const S = useStore(s => s.S)
   const update = useStore(s => s.update)
+  const pullState = useStore(s => s.pullState)
   const config = useStore(s => s.config)
   const coachMode = useStore(s => s.coachLocal?.mode)
   const user = useStore(s => s.user)
+
+  // ponytail: robust subscription check using both store state and user object
+  const subStatus = S?.subscription?.status || user?.subscription?.status;
+  const isSubActive = !!user?.admin || subStatus === 'active';
+  const isLocked = !isSubActive;
+
+  if (isLocked) {
+    return (
+      <div style={{ paddingBottom: 80, direction: 'rtl', textAlign: 'right' }}>
+        <div className="hdr">
+          <div><h1>{t('Plan')}</h1><div className="sub">برنامه تمرینی اختصاصی</div></div>
+        </div>
+        <AthletePaywall onStatusChange={() => pullState()} />
+      </div>
+    );
+  }
+
+  const hasRoutines = Array.isArray(S?.routines) && S.routines.length > 0;
+  const hasAssigned = Array.isArray(S?.assignedWorkout?.routines) && S.assignedWorkout.routines.length > 0;
 
   /* The Coach's only entry point in the app. Its screens have existed since the UI landed and
      nothing linked to them, so the feature was reachable only by typing the URL — enabled,
@@ -64,6 +86,45 @@ export default function Plan() {
         <button className="iconbtn" onClick={planToolsSheet} aria-label={t('Share your plan')} title={t('Share your plan')}><Icon name="upload" /></button>
       </div>
     </div>
+
+    <div style={{ padding: '0 16px 12px', display: 'flex', gap: 8 }}>
+      <button className="btn primary" style={{ flex: 1, justifyContent: 'center' }}>
+        🏋️ برنامه تمرینی
+      </button>
+      <button className="btn" style={{ flex: 1, justifyContent: 'center' }} onClick={() => nav('/diet')}>
+        🥗 برنامه غذایی
+      </button>
+    </div>
+
+    {!hasRoutines && !hasAssigned && (
+      <div className="card" style={{ margin: '0 16px 14px', background: 'rgba(0, 122, 255, 0.08)', borderColor: 'rgba(0, 122, 255, 0.25)', padding: '16px' }}>
+        <div className="row" style={{ gap: 8, color: 'var(--blue)', fontWeight: 700, marginBottom: 4 }}>
+          <Icon name="clock" />
+          <span>شهریه فعال — در انتظار ثبت برنامه توسط مربی</span>
+        </div>
+        <div className="dim small" style={{ lineHeight: 1.6 }}>
+          شهریه دوره شما تایید شده و فعال است. مربی شما در حال تنظیم برنامه تمرینی اختصاصی شماست و به محض ثبت، برنامه به صورت خودکار در این صفحه قرار خواهد گرفت.
+        </div>
+      </div>
+    )}
+
+    {S?.assignedWorkout?.routines?.length > 0 && (
+      <div className="card" style={{ margin: '0 16px 14px', background: 'rgba(52, 199, 89, 0.08)', borderColor: 'rgba(52, 199, 89, 0.3)' }}>
+        <div className="row between" style={{ marginBottom: 6 }}>
+          <span style={{ fontWeight: 700, color: 'var(--green)' }}>✓ برنامه مربی آماده است</span>
+          <Button size="sm" variant="primary" onClick={() => {
+            update(s => {
+              s.routines = S.assignedWorkout.routines;
+              if (S.assignedWorkout.week) s.week = S.assignedWorkout.week;
+            });
+            useUI.getState().toast('برنامه مربی در برنامه شما اعمال شد');
+          }}>
+            بارگذاری در برنامه هفتگی
+          </Button>
+        </div>
+        <div className="dim small">مربی برای شما {S.assignedWorkout.routines.length} روال تمرینی تنظیم کرده است. برای اعمال در جدول هفتگی، دکمه بالا را بزنید.</div>
+      </div>
+    )}
     {showCoach && <button className="coach-cta" onClick={() => nav('/coach')}>
       <span className="coach-cta-av"><Icon name="sparkles" /></span>
       <span className="coach-cta-t">

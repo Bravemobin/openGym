@@ -535,9 +535,10 @@ export default function Settings() {
           )}
         </ServerSyncSection>
       )}
+      {/* No passkeys in this browser (plain http on a LAN address, say): a password is the way in. */}
 
       {/* ---------- account (demo and mobile builds have nothing to sign in to) ---------- */}
-      {!(MOBILE && user) && (
+      {/* {!(MOBILE && user) && (
         <Section
           title={MOBILE ? t("Your data") : DEMO ? t("Demo") : t("Account")}
         >
@@ -681,7 +682,6 @@ export default function Settings() {
             </>
           ) : pwOn ? (
             <>
-              {/* No passkeys in this browser (plain http on a LAN address, say): a password is the way in. */}
               <Row
                 icon="sparkles"
                 iconTint="var(--acc)"
@@ -710,12 +710,12 @@ export default function Settings() {
             </>
           )}
         </Section>
-      )}
-      {!user && !DEMO && !MOBILE && (
+      )} */}
+      {/* {!user && !DEMO && !MOBILE && (
         <p className="sect-f" style={{ marginTop: -18, marginBottom: 22 }}>
           {t("Guest mode — data lives only in this browser.")}
         </p>
-      )}
+      )} */}
 
       {/* ---------- the Coach on a phone: through the paired server, or with the user's own key ---------- */}
       {MOBILE && (

@@ -1672,6 +1672,13 @@ export const useStore = create((set, get) => {
           lastCheck = Date.now();
           reached();
           const { state, rev } = res;
+          // ponytail: keep active/pending subscription and locked flag in sync between server state and client user/store
+          if (state?.subscription && get().user) {
+            const cur = get().user;
+            if (cur.subscription?.status !== state.subscription.status) {
+              get().setUser({ ...cur, subscription: state.subscription });
+            }
+          }
           const S = get().S;
           const { base, owed } = metaOf();
           // Owed to the server: a push that failed, or a change made while boot was still pulling.
@@ -1712,6 +1719,9 @@ export const useStore = create((set, get) => {
           const serverMoved = rev !== base.rev;
           const changed = dirty || localChanged(S);
           if (!serverMoved) {
+            if (state?.subscription && S.subscription?.status !== state.subscription.status) {
+              persist(Object.assign({}, S, { subscription: state.subscription, locked: !!state.locked }), false, false);
+            }
             if (changed) await get().pushState();
             else confirmed(S);
             return;

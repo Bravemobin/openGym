@@ -4,7 +4,7 @@ import { useStore } from '../store/useStore.js'
 import { effectiveRoutines, effectiveRoutineIds, nextTrainingDay, streakWeeks, lastBW, setsDoneActive } from '../lib/history.js'
 import { fmtNum, fmtDate, todayISO, isoOf, weekKey, weekStartOf, weekDayOffset, DAYS, DAYN } from '../lib/format.js'
 import { t, dateLocale } from '../lib/i18n.js'
-import { bwSheet, goalSheet, dayOverrideSheet, calendarSheet, startFlow, starterPlanSheet, bwDeltaColor, weighInsSheet } from '../sheets.jsx'
+import { bwSheet, goalSheet, dayOverrideSheet, calendarSheet, startFlow, bwDeltaColor, weighInsSheet } from '../sheets.jsx'
 import LineChart from '../components/LineChart.jsx'
 import Icon from '../components/Icon.jsx'
 import { Button } from '../components/ui.jsx'
@@ -69,7 +69,9 @@ export default function Home() {
       <div><h1>{user ? t('Hi {0}', user.name) : 'emadgym'}</h1><div className="sub">{today.toLocaleDateString(dateLocale(), { weekday: 'long', day: 'numeric', month: 'long' })}</div></div>
       <div style={{ display: 'flex', alignItems: 'center', gap: 8, flex: 'none' }}>
         <LanguageSelect />
-        <button className="iconbtn" onClick={() => nav('/settings')} aria-label={t('Settings')}><Icon name="gear" /></button>
+        {user?.admin && (
+          <button className="iconbtn" onClick={() => nav('/admin')} aria-label={t('Admin dashboard')}><Icon name="wrench" /></button>
+        )}
       </div>
     </div>
 
@@ -110,7 +112,7 @@ export default function Home() {
           and your other routines) is only reachable on a day with nothing planned. The one other
           way in, "Choose a different workout" on the weigh-in sheet, does not exist when the
           weigh-in is switched off. This is that door, and it starts nothing on its own. */}
-      {!S.active && <div style={{ display: 'flex', justifyContent: 'center', marginTop: 4 }}>
+      {!S.active && S.routines.length > 0 && <div style={{ display: 'flex', justifyContent: 'center', marginTop: 4 }}>
         <Button size="sm" variant="ghost" className="dim" icon="reset" onClick={() => nav('/workout')}>
           {t('Choose a different workout')}
         </Button>
@@ -135,14 +137,12 @@ export default function Home() {
     )}
 
     {!S.routines.length && !S.active && (
-      <div className="card">
-        <div className="row" style={{ gap: 10, marginBottom: 6 }}>
-          <span className="lrow-i"><Icon name="sparkles" /></span>
-          <div className="big" style={{ fontSize: 22 }}>{t('Welcome!')}</div>
+      <div className="card" style={{ textAlign: 'center', padding: '24px 16px' }}>
+        <div style={{ fontSize: 32, marginBottom: 8 }}>📋</div>
+        <div className="ttl" style={{ marginBottom: 6 }}>در انتظار برنامه تمرینی</div>
+        <div className="muted small">
+          برنامه تمرینی شما پس از تنظیم توسط مربی در این بخش نمایش داده خواهد شد.
         </div>
-        <div className="muted small" style={{ marginBottom: 12 }}>{t('Set up your weekly routine to get going — or load a ready-made starter plan.')}</div>
-        <Button variant="primary" icon="sparkles" onClick={starterPlanSheet}>{t('Load starter plan')}</Button>
-        <div style={{ height: 8 }} /><Button onClick={() => nav('/plan')}>{t('Build my own plan')}</Button>
       </div>
     )}
 

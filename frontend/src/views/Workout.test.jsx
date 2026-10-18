@@ -1873,15 +1873,15 @@ describe('Workout exercise tags', () => {
   })
 
   // The cardio target "cardiovascular system" is a translated key of its own; mapping it through
-  // MUSCLE_NAME must not turn "Herz-Kreislauf" back into English for every built-in cardio exercise.
-  it('keeps the cardio target translated (burpee, de)', async () => {
+  // MUSCLE_NAME must not turn the translated name back into English for every built-in cardio exercise.
+  it('keeps the cardio target translated (burpee, fa)', async () => {
     const { _setLangState } = await import('../lib/i18n-core.js')
-    const { default: de } = await import('../locales/de.js')
-    _setLangState('de', de, null, null)
+    const { default: fa } = await import('../locales/fa.js')
+    _setLangState('fa', fa, null, null)
     try {
       await mount([exercise('1160', [false])])
       const tags = [...container.querySelectorAll('.tag')].map(tag => tag.textContent.trim())
-      expect(tags).toContain('Herz-Kreislauf')
+      expect(tags).toContain(fa['cardiovascular system'])
       expect(tags).not.toContain('Cardiovascular system')
     } finally { _setLangState('en', null, null, null) }
   })
@@ -1993,21 +1993,21 @@ describe('the reference line: last time or best set', () => {
     expect(line().textContent).toMatch(/^Last time \(.+\): 60×8 \(RIR 3\), 60×8 \(RIR 2\)$/)
   })
 
-  // A per-side set in Arabic carries its side words ("يسار 15×8 · يمين 15×7"). Forced left to
+  // A per-side set in Persian carries its side words ("چپ 15×8 · راست 15×7"). Forced left to
   // right, each word stood on the wrong side of its numbers and the numbers after it turned
   // round; isolated in its own direction it reads as before, next to sets that are forced.
   it('leaves a set with right-to-left words in its own direction', async () => {
     const { _setLangState } = await import('../lib/i18n-core.js')
-    const { default: ar } = await import('../locales/ar.js')
+    const { default: fa } = await import('../locales/fa.js')
     const side = r => ({ w: 15, r, done: true })
     const sided = [{ d: '2026-08-26', start: Date.parse('2026-08-26T18:00:00'), routineIds: ['A'],
       entries: [{ id: 'plain-bench', rid: 'A', target: { mode: 'reps', side: true, reps: 16, weight: 15, bodyweight: false },
         sets: [{ w: 15, r: 15, done: true, sides: { L: side(8), R: side(7) } }] }] }]
-    _setLangState('ar', ar, null, null)
+    _setLangState('fa', fa, null, null)
     try {
       await mount([exercise('plain-bench', [false], { rid: 'A' })], 0, { workouts: sided })
       const sets = [...line().querySelectorAll('bdi')]
-      expect(sets.map(b => [b.getAttribute('dir'), b.textContent])).toEqual([['auto', `${ar.L} 15×8 · ${ar.R} 15×7`]])
+      expect(sets.map(b => [b.getAttribute('dir'), b.textContent])).toEqual([['auto', `${fa.L} 15×8 · ${fa.R} 15×7`]])
     } finally { _setLangState('en', null, null, null) }
     await mount([exercise('plain-bench', [false], { rid: 'A' })], 0, { workouts: sided })
     expect([...line().querySelectorAll('bdi')].map(b => [b.getAttribute('dir'), b.textContent])).toEqual([['ltr', 'L 15×8 · R 15×7']])

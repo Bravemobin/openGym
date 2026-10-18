@@ -4,8 +4,7 @@
 import { afterEach, describe, expect, it } from 'vitest'
 import { _setLangState } from './lib/i18n-core.js'
 import { addDeviceDataMessage } from './sheets.jsx'
-import de from './locales/de.js'
-import ru from './locales/ru.js'
+import fa from './locales/fa.js'
 
 afterEach(() => _setLangState('en', null, null, null))
 
@@ -20,11 +19,10 @@ describe('addDeviceDataMessage', () => {
   })
 
   it('uses the singular sentences of the language packs', () => {
-    _setLangState('de', de, null, null)
-    expect(addDeviceDataMessage(1, 1)).toMatch(/^1 Training und 1 Wiegung wurden/)
-    expect(addDeviceDataMessage(1, 2)).toMatch(/^1 Training und 2 Wiegungen wurden/)
-    expect(addDeviceDataMessage(3, 1)).toMatch(/^3 Trainings und 1 Wiegung wurden/)
-    _setLangState('ru', ru, null, null)
-    expect(addDeviceDataMessage(1, 1)).toMatch(/^1 тренировка и 1 взвешивание/)
+    _setLangState('fa', fa, null, null)
+    const expected = fa['{0} workout and {1} weigh-in were logged on this device while signed out. Add them to your profile, or keep the profile exactly as it is on the server.']
+      .replace('{0}', '1')
+      .replace('{1}', '1')
+    expect(addDeviceDataMessage(1, 1)).toBe(expected)
   })
 })
