@@ -126,7 +126,7 @@ export const DEF = {
   timerFlash: false,
   timedSetOvertime: false,
   keepAwake: true,
-  lang: "en",
+  lang: "fa",
   theme: "dark",
   accent: "orange",
   body: "male",
@@ -268,7 +268,7 @@ const detectedLang = () => {
   } catch (e) {
     /* ignore */
   }
-  return "en";
+  return "fa";
 };
 
 // A copy started from nothing on this device. `langAuto` marks its language as one nobody has

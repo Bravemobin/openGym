@@ -109,13 +109,13 @@ const PASSWORD_LOGIN = /^(1|true|yes|on)$/i.test(
 // matches it against the languages it has and ignores one it does not know. Unset, it is left
 // out of /api/config and the app behaves as before.
 const DEFAULT_LANG = (() => {
-  const v = String(process.env.DEFAULT_LANG || "").trim();
-  if (!v) return "";
+  const v = String(process.env.DEFAULT_LANG || "fa").trim();
+  if (!v) return "fa";
   if (/^[A-Za-z]{2,3}([-_][A-Za-z0-9]{2,8})?$/.test(v)) return v;
   console.warn(
     `DEFAULT_LANG "${v.slice(0, 40)}" is not a language tag such as fa or en — ignored`,
   );
-  return "";
+  return "fa";
 })();
 // Whether the address a request came from may be read from the headers a proxy sets. Only the
 // sign-in throttle asks (limitAddress below); the bundled compose file sets it, because the API

@@ -641,7 +641,7 @@ function BwSheet({ required, onDone, close }) {
             {t("Start without weighing in")}
           </Button>
           <div style={{ height: 2 }} />
-          <Button
+          {/* <Button
             variant="ghost"
             className="dim"
             icon="reset"
@@ -651,7 +651,7 @@ function BwSheet({ required, onDone, close }) {
             }}
           >
             {t("Choose a different workout")}
-          </Button>
+          </Button> */}
         </>
       )}
       {!required && recent.length > 0 && (
@@ -2448,7 +2448,7 @@ function usageMap(st) {
   );
   return u;
 }
-function ExercisePicker({ onPick, title, close }) {
+function ExercisePicker({ onPick, title, close, byMuscle: initialByMuscle = false }) {
   const st = useStore((s) => s.S);
   const usage = usageMap(st);
   const [q, setQ] = useState("");
@@ -2456,7 +2456,7 @@ function ExercisePicker({ onPick, title, close }) {
   const [eq, setEq] = useState(""); // '' = any equipment
   const [showAll, setShowAll] = useState(false);
   const [shown, setShown] = useState(50);
-  const [byMuscle, setByMuscle] = useState(false);
+  const [byMuscle, setByMuscle] = useState(initialByMuscle);
   const searchRef = useRef(null);
   const bpStrip = useRef(null),
     eqStrip = useRef(null);
@@ -2744,9 +2744,9 @@ function ExercisePicker({ onPick, title, close }) {
   );
 }
 // `title` names what the pick is for when it is not an add — the routine editor's Replace (#110).
-export const exercisePicker = (onPick, { title } = {}) =>
+export const exercisePicker = (onPick, { title, byMuscle = false } = {}) =>
   ui().openSheet((close) => (
-    <ExercisePicker onPick={onPick} title={title} close={close} />
+    <ExercisePicker onPick={onPick} title={title} close={close} byMuscle={byMuscle} />
   ));
 
 /** Start a safe swap for one exact active-workout occurrence. */

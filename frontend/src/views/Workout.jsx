@@ -176,9 +176,9 @@ function StartChooser() {
               : t("rest day, but no one’s stopping you")}
           </div>
         </div>
-        <div style={{ flex: "none" }}>
+        {/* <div style={{ flex: "none" }}>
           <LanguageSelect />
-        </div>
+        </div> */}
       </div>
       {todayRoutines.length > 0 && (
         <div className="card" style={{ borderColor: "var(--acc)" }}>
@@ -233,9 +233,9 @@ function StartChooser() {
         </>
       )}
       <div style={{ height: 14 }} />
-      <Button icon="shuffle" onClick={() => startFlow([])}>
+      {/* <Button icon="shuffle" onClick={() => startFlow([])}>
         {t("Freestyle workout (pick as you go)")}
-      </Button>
+      </Button> */}
       {!S.routines.length && (
         <>
           <div style={{ height: 10 }} />
@@ -2904,7 +2904,9 @@ export default function Workout() {
   }
 
   const hasRoutines = Array.isArray(S?.routines) && S.routines.length > 0;
-  const hasAssigned = Array.isArray(S?.assignedWorkout?.routines) && S.assignedWorkout.routines.length > 0;
+  const hasAssigned =
+    Array.isArray(S?.assignedWorkout?.routines) &&
+    S.assignedWorkout.routines.length > 0;
 
   if (!active && !hasRoutines && !hasAssigned) {
     return (
@@ -2925,14 +2927,20 @@ export default function Workout() {
               borderColor: "rgba(0, 122, 255, 0.25)",
             }}
           >
-            <div style={{ fontSize: 40, color: "var(--blue)", marginBottom: 12 }}>
+            <div
+              style={{ fontSize: 40, color: "var(--blue)", marginBottom: 12 }}
+            >
               <Icon name="clock" />
             </div>
-            <h3 style={{ margin: "0 0 8px", fontSize: 18, color: "var(--blue)" }}>
+            <h3
+              style={{ margin: "0 0 8px", fontSize: 18, color: "var(--blue)" }}
+            >
               شهریه فعال — در انتظار برنامه مربی
             </h3>
             <div className="muted small" style={{ lineHeight: 1.6 }}>
-              شهریه دوره شما با موفقیت تایید شده است. به محض اینکه مربی برنامه تمرینی شما را تنظیم کند، تمرینات از این بخش قابل شروع و ثبت خواهند بود.
+              شهریه دوره شما با موفقیت تایید شده است. به محض اینکه مربی برنامه
+              تمرینی شما را تنظیم کند، تمرینات از این بخش قابل شروع و ثبت خواهند
+              بود.
             </div>
           </div>
         </div>

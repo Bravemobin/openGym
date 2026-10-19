@@ -1,91 +1,66 @@
-import { useState } from 'react'
-import { useStore } from '../store/useStore.js'
-import { useUI } from '../store/useUI.js'
-import { coachLogin, coachRegister } from '../lib/coach-panel-api.js'
-import { Button, Segmented } from './ui.jsx'
-import Icon from './Icon.jsx'
+import { useState } from "react";
+import { useStore } from "../store/useStore.js";
+import { useUI } from "../store/useUI.js";
+import { coachLogin } from "../lib/coach-panel-api.js";
+import { Button } from "./ui.jsx";
+import Icon from "./Icon.jsx";
 
 export default function CoachLoginSheet({ close }) {
-  const setUser = useStore((s) => s.setUser)
-  const toast = useUI.getState().toast
+  const setUser = useStore((s) => s.setUser);
+  const toast = useUI.getState().toast;
 
-  const [mode, setMode] = useState('login') // 'login' | 'register'
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
-  const [coachSecret, setCoachSecret] = useState('')
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState('')
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const handleLogin = async (e) => {
-    e?.preventDefault()
+    e?.preventDefault();
     if (!username.trim() || !password) {
-      setError('نام کاربری و رمز عبور را وارد کنید')
-      return
+      setError("نام کاربری و رمز عبور را وارد کنید");
+      return;
     }
-    setError('')
-    setLoading(true)
+    setError("");
+    setLoading(true);
     try {
       const res = await coachLogin({
         username: username.trim(),
-        password
-      })
-      if (res?.user) {
-        setUser(res.user, { adopt: true })
-        close()
-        toast(`خوش آمدید مربی ${res.user.name}`)
-      } else {
-        setError(res?.error || 'خطا در ورود به حساب مربی')
-      }
-    } catch (err) {
-      setError(err?.data?.error || err?.message || 'نام کاربری یا رمز عبور اشتباه است')
-    } finally {
-      setLoading(false)
-    }
-  }
-
-  const handleRegister = async (e) => {
-    e?.preventDefault()
-    if (!username.trim() || !password) {
-      setError('نام مربی و رمز عبور الزامی است')
-      return
-    }
-    if (password.length < 6) {
-      setError('رمز عبور باید حداقل ۶ کاراکتر باشد')
-      return
-    }
-    setError('')
-    setLoading(true)
-    try {
-      const res = await coachRegister({
-        name: username.trim(),
         password,
-        coachSecret: coachSecret.trim()
-      })
+      });
       if (res?.user) {
-        setUser(res.user, { adopt: true })
-        close()
-        toast(`حساب مربیگری ${res.user.name} با موفقیت ایجاد شد`)
+        setUser(res.user, { adopt: true });
+        close();
+        toast(`خوش آمدید مربی ${res.user.name}`);
       } else {
-        setError(res?.error || 'خطا در ایجاد حساب مربی')
+        setError(res?.error || "خطا در ورود به حساب مربی");
       }
     } catch (err) {
-      setError(err?.data?.error || err?.message || 'خطا در ایجاد حساب مربی')
+      setError(
+        err?.data?.error || err?.message || "نام کاربری یا رمز عبور اشتباه است",
+      );
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   return (
-    <div style={{ direction: 'rtl', textAlign: 'right' }}>
-      <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12 }}>
+    <div style={{ direction: "rtl", textAlign: "right" }}>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: 10,
+          marginBottom: 12,
+        }}
+      >
         <span
           className="lrow-i"
           style={{
-            background: 'color-mix(in srgb, var(--indigo) 18%, transparent)',
-            color: 'var(--indigo)',
+            background: "color-mix(in srgb, var(--indigo) 18%, transparent)",
+            color: "var(--indigo)",
             width: 36,
             height: 36,
-            borderRadius: 10
+            borderRadius: 10,
           }}
         >
           <Icon name="shield" />
@@ -98,36 +73,30 @@ export default function CoachLoginSheet({ close }) {
         </div>
       </div>
 
-      <Segmented
-        options={[
-          { value: 'login', label: 'ورود مربی' },
-          { value: 'register', label: 'ایجاد حساب مربی' }
-        ]}
-        value={mode}
-        onChange={(v) => {
-          setMode(v)
-          setError('')
-        }}
-      />
-
-      <form onSubmit={mode === 'login' ? handleLogin : handleRegister} style={{ marginTop: 14 }}>
+      <form onSubmit={handleLogin} style={{ marginTop: 14 }}>
         <div style={{ marginBottom: 10 }}>
-          <label className="small muted" style={{ display: 'block', marginBottom: 4, fontWeight: 600 }}>
-            {mode === 'login' ? 'نام کاربری یا ایمیل مربی' : 'نام کامل مربی'}
+          <label
+            className="small muted"
+            style={{ display: "block", marginBottom: 4, fontWeight: 600 }}
+          >
+            نام کاربری یا ایمیل مربی
           </label>
           <input
             className="input"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
-            placeholder={mode === 'login' ? 'مثال: علیرضا یا ایمیل' : 'مثال: کاپیتان حمیدی'}
+            placeholder="مثال: علیرضا یا ایمیل"
             autoFocus
             required
-            style={{ width: '100%', direction: 'ltr', textAlign: 'right' }}
+            style={{ width: "100%", direction: "ltr", textAlign: "right" }}
           />
         </div>
 
         <div style={{ marginBottom: 12 }}>
-          <label className="small muted" style={{ display: 'block', marginBottom: 4, fontWeight: 600 }}>
+          <label
+            className="small muted"
+            style={{ display: "block", marginBottom: 4, fontWeight: 600 }}
+          >
             رمز عبور
           </label>
           <input
@@ -137,49 +106,36 @@ export default function CoachLoginSheet({ close }) {
             onChange={(e) => setPassword(e.target.value)}
             placeholder="حداقل ۶ کاراکتر"
             required
-            style={{ width: '100%', direction: 'ltr', textAlign: 'right' }}
+            style={{ width: "100%", direction: "ltr", textAlign: "right" }}
           />
         </div>
-
-        {mode === 'register' && (
-          <div style={{ marginBottom: 14 }}>
-            <label className="small muted" style={{ display: 'block', marginBottom: 4, fontWeight: 600 }}>
-              کد امنیتی مربیگری
-            </label>
-            <input
-              className="input"
-              type="password"
-              value={coachSecret}
-              onChange={(e) => setCoachSecret(e.target.value)}
-              placeholder="پیش‌فرض: emadcoach"
-              style={{ width: '100%', direction: 'ltr', textAlign: 'right' }}
-            />
-            <div className="dim small" style={{ marginTop: 4 }}>
-              جهت جلوگیری از ثبت‌نام افراد متفرقه به عنوان مربی در سامانه
-            </div>
-          </div>
-        )}
 
         {error && (
           <div
             style={{
-              color: 'var(--red)',
-              background: 'color-mix(in srgb, var(--red) 12%, transparent)',
-              padding: '8px 12px',
+              color: "var(--red)",
+              background: "color-mix(in srgb, var(--red) 12%, transparent)",
+              padding: "8px 12px",
               borderRadius: 8,
               fontSize: 13,
               marginBottom: 12,
-              fontWeight: 500
+              fontWeight: 500,
             }}
           >
             {error}
           </div>
         )}
 
-        <Button variant="primary" type="submit" disabled={loading} style={{ width: '100%', justifyContent: 'center' }}>
-          {loading ? 'در حال بررسی...' : mode === 'login' ? 'ورود به پنل مربیگری' : 'ایجاد حساب و ورود'}
+        {/* ponytail: coach registration removed; registration happens via admin panel */}
+        <Button
+          variant="primary"
+          type="submit"
+          disabled={loading}
+          style={{ width: "100%", justifyContent: "center" }}
+        >
+          {loading ? "در حال بررسی..." : "ورود به پنل مربیگری"}
         </Button>
       </form>
     </div>
-  )
+  );
 }

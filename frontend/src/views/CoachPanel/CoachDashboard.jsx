@@ -9,6 +9,7 @@ import {
 import CoachReceipts from "./CoachReceipts.jsx";
 import CoachAthletePlan from "./CoachAthletePlan.jsx";
 import CoachPaymentSettings from "./CoachPaymentSettings.jsx";
+import CoachCreateAthlete from "./CoachCreateAthlete.jsx";
 import { Button } from "../../components/ui.jsx";
 import Icon from "../../components/Icon.jsx";
 
@@ -25,6 +26,7 @@ export default function CoachDashboard() {
 
   // Selected athlete for editing plans
   const [selectedAthleteId, setSelectedAthleteId] = useState(null);
+  const [creatingAthlete, setCreatingAthlete] = useState(false);
 
   const loadData = async () => {
     try {
@@ -62,6 +64,23 @@ export default function CoachDashboard() {
       toast(e.message || "خطا در غیرفعال‌سازی");
     }
   };
+
+  // If creating a new athlete
+  if (creatingAthlete) {
+    return (
+      <CoachCreateAthlete
+        onBack={() => {
+          setCreatingAthlete(false);
+          loadData();
+        }}
+        onEditPlan={(athleteId) => {
+          setCreatingAthlete(false);
+          setSelectedAthleteId(athleteId);
+          loadData();
+        }}
+      />
+    );
+  }
 
   // If editing an athlete plan
   if (selectedAthleteId) {
@@ -104,10 +123,9 @@ export default function CoachDashboard() {
           borderBottom: "1px solid var(--sep)",
         }}
       >
-        <div className="row between">
+        <div className="row between" style={{ width: "100%" }}>
           <div>
             <div className="row" style={{ gap: 8, alignItems: "center" }}>
-              <span style={{ fontSize: 24, color: "var(--acc)" }}>💪</span>
               <h1 style={{ margin: 0, fontSize: 20, fontWeight: 800 }}>
                 پنل اختصاصی مربی
               </h1>
@@ -232,15 +250,23 @@ export default function CoachDashboard() {
       {/* ================= TAB: ATHLETES ================= */}
       {activeTab === "athletes" && (
         <div style={{ padding: "0 16px" }}>
-          {/* Search bar */}
-          <div style={{ marginBottom: 14 }}>
+          {/* Search bar and Add Athlete */}
+          <div className="row" style={{ gap: 8, marginBottom: 14 }}>
             <input
               className="input"
               placeholder="🔍 جستجوی شاگرد با نام..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              style={{ width: "100%" }}
+              style={{ flex: 1 }}
             />
+            <Button
+              variant="primary"
+              size="sm"
+              onClick={() => setCreatingAthlete(true)}
+              style={{ flex: "none", whiteSpace: "nowrap" }}
+            >
+              + ثبت شاگرد جدید
+            </Button>
           </div>
 
           {loading ? (
@@ -255,7 +281,16 @@ export default function CoachDashboard() {
               className="card"
               style={{ textAlign: "center", padding: "30px 16px" }}
             >
-              <div className="muted small">هیچ شاگردی یافت نشد.</div>
+              <div className="muted small" style={{ marginBottom: 12 }}>
+                هیچ شاگردی یافت نشد.
+              </div>
+              <Button
+                variant="primary"
+                size="sm"
+                onClick={() => setCreatingAthlete(true)}
+              >
+                + ثبت اولین شاگرد
+              </Button>
             </div>
           ) : (
             <div className="list" style={{ gap: 12 }}>

@@ -533,6 +533,13 @@ export default function Settings() {
               />
             </>
           )}
+          <Row
+            icon="signOut"
+            iconTint="var(--red)"
+            title={t("Sign out")}
+            danger
+            onClick={signOutHere}
+          />
         </ServerSyncSection>
       )}
       {/* No passkeys in this browser (plain http on a LAN address, say): a password is the way in. */}

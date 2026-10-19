@@ -1,9 +1,12 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useStore } from '../store/useStore.js';
+import { t } from '../lib/i18n.js';
 import AthletePaywall from '../components/AthletePaywall.jsx';
 import Icon from '../components/Icon.jsx';
 
 export default function AthleteDiet() {
+  const nav = useNavigate();
   const S = useStore((s) => s.S);
   const user = useStore((s) => s.user);
   const pullState = useStore((s) => s.pullState);
@@ -14,12 +17,26 @@ export default function AthleteDiet() {
   const isLocked = !isSubActive;
   const [checkedMeals, setCheckedMeals] = useState({});
 
+  const goBack = () => {
+    if (window.history.state?.idx > 0) nav(-1);
+    else nav('/plan');
+  };
+
+  const header = (
+    <div className="hdr">
+      <button className="iconbtn" onClick={goBack} aria-label={t('Back')}>
+        <Icon name="chevronLeft" />
+      </button>
+      <div style={{ flex: 1, marginInlineStart: 12 }}>
+        <h1>برنامه غذایی</h1>
+      </div>
+    </div>
+  );
+
   if (isLocked) {
     return (
-      <div style={{ paddingBottom: 80 }}>
-        <div className="hdr">
-          <div className="title">برنامه غذایی</div>
-        </div>
+      <div className="narrow" style={{ paddingBottom: 80, direction: 'rtl', textAlign: 'right' }}>
+        {header}
         <AthletePaywall onStatusChange={() => pullState()} />
       </div>
     );
@@ -35,9 +52,7 @@ export default function AthleteDiet() {
 
   return (
     <div className="narrow" style={{ paddingBottom: 90, direction: 'rtl', textAlign: 'right' }}>
-      <div className="hdr">
-        <div className="title">برنامه غذایی</div>
-      </div>
+      {header}
 
       {notes && (
         <div

@@ -286,6 +286,87 @@ export function athleteCoachRoutes({
 
     /* -------------------- COACH (ADMIN) ROUTES -------------------- */
 
+    // Create a new athlete account by coach
+    'POST /api/coach/athlete/create': async (req, res) => {
+      if (!requireAdmin(req, res)) return;
+      const body = await readBody(req);
+      const name = text(body.name).trim();
+      const password = typeof body.password === 'string' ? body.password : '';
+      const days = Math.max(1, Number(body.days) || 30);
+      const status = body.status === 'unpaid' ? 'unpaid' : 'active';
+      const email = text(body.email).trim().toLowerCase();
+
+      if (!name) {
+        return json(res, 400, { error: 'نام شاگرد الزامی است' });
+      }
+      if (!password || password.length < 4) {
+        return json(res, 400, { error: 'رمز عبور باید حداقل ۴ کاراکتر باشد' });
+      }
+
+      const isTaken = db.users.some(u => {
+        const nMatch = nameKey ? nameKey(u.name) === nameKey(name) : u.name.toLowerCase() === name.toLowerCase();
+        const eMatch = email && u.email && u.email.toLowerCase() === email;
+        return nMatch || eMatch;
+      });
+      if (isTaken) {
+        return json(res, 400, { error: 'کاربری با این نام یا ایمیل قبلاً ثبت شده است' });
+      }
+
+      const id = crypto.randomBytes(12).toString('base64url');
+      const created = new Date().toISOString();
+      const h = hashPassword ? await hashPassword(password) : password;
+
+      const sub = {
+        status,
+        expiresAt: status === 'active' ? (Date.now() + days * 24 * 3600 * 1000) : null,
+        rejectReason: null,
+        approvedAt: status === 'active' ? created : null
+      };
+
+      const athleteUser = {
+        id,
+        name,
+        role: 'athlete',
+        created,
+        pw: { h, set: created },
+        ...(email ? { email } : {}),
+        subscription: sub
+      };
+
+      db.users.push(athleteUser);
+      saveDb();
+
+      // ponytail: initial state minimal seed so sync won't hit an uninitialized file; full profile expands on first sync
+      try {
+        const S = {
+          _ts: Date.now(),
+          _rev: 1,
+          subscription: sub,
+          locked: status !== 'active',
+          routines: [],
+          workouts: [],
+          bodyweight: [],
+          assignedWorkout: { routines: [], week: {} },
+          assignedDiet: { meals: [], notes: '' }
+        };
+        atomicWrite(stateFile(id), JSON.stringify(S, null, 2));
+      } catch (err) {
+        console.error('Error creating athlete state:', err);
+      }
+
+      json(res, 200, {
+        ok: true,
+        athlete: {
+          id: athleteUser.id,
+          name: athleteUser.name,
+          created: athleteUser.created,
+          subscription: athleteUser.subscription,
+          hasAssignedWorkout: false,
+          hasAssignedDiet: false
+        }
+      });
+    },
+
     // List all athletes and their subscription/plan summary
     'GET /api/coach/athletes': async (req, res) => {
       if (!requireAdmin(req, res)) return;

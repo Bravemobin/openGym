@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fa" dir="rtl">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
@@ -16,9 +16,9 @@
       var tag = (list[i] || '').slice(0, 2).toLowerCase();
       if (tag === 'fa') { rtl = tag; break; }
     }
-    var l = s.lang || seen || rtl || 'en';
+    var l = s.lang || seen || rtl || 'fa';
     document.documentElement.lang = l;
-    document.documentElement.dir = l === 'fa' ? 'rtl' : 'ltr';
+    document.documentElement.dir = l === 'en' ? 'ltr' : 'rtl';
   } catch (e) {}
 
   // Early-fetch /api/config in parallel with JS bundles so a fresh device knows DEFAULT_LANG before first paint.

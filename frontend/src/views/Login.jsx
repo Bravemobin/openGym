@@ -232,32 +232,32 @@ export default function Login() {
       </div>
       {webauthnOK() ? (
         <>
-          <Button variant="primary" icon="person" onClick={signIn}>
+          {/* <Button variant="primary" icon="person" onClick={signIn}>
             {t("Sign in with passkey")}
+          </Button> */}
+          {/* <div style={{ height: 10 }} /> */}
+          <Button
+            icon="key"
+            variant="primary"
+            onClick={() => openPasswordSignIn()}
+          >
+            {t("Sign in with password")}
           </Button>
           <div style={{ height: 10 }} />
-          {pwOn && (
-            <>
-              <Button icon="key" onClick={() => openPasswordSignIn()}>
-                {t("Sign in with password")}
-              </Button>
-              <div style={{ height: 10 }} />
-            </>
-          )}
-          <Button icon="sparkles" onClick={register}>
+          {/* <Button icon="sparkles" onClick={register}>
             {t("Create new profile")}
-          </Button>
+          </Button> */}
           {/* Already signed in on another device: a code from there gives this one a passkey of
             its own (#95), instead of a new, empty profile. */}
-          <div style={{ height: 10 }} />
-          <Button
+          {/* <div style={{ height: 10 }} /> */}
+          {/* <Button
             variant="ghost"
             className="dim"
             icon="qr"
             onClick={openDeviceLinkRedeem}
           >
             {t("Use a code from your other device")}
-          </Button>
+          </Button> */}
           {canGuest && <div style={{ height: 4 }} />}
         </>
       ) : pwOn ? (
@@ -280,9 +280,9 @@ export default function Login() {
             {t("Sign in with password")}
           </Button>
           <div style={{ height: 10 }} />
-          <Button icon="sparkles" onClick={register}>
+          {/* <Button icon="sparkles" onClick={register}>
             {t("Create new profile")}
-          </Button>
+          </Button> */}
           {canGuest && <div style={{ height: 10 }} />}
         </>
       ) : (
@@ -299,7 +299,14 @@ export default function Login() {
         </div>
       )}
       {/* Coach portal access */}
-      <div style={{ margin: "20px 0 12px", display: "flex", alignItems: "center", gap: 10 }}>
+      <div
+        style={{
+          margin: "20px 0 12px",
+          display: "flex",
+          alignItems: "center",
+          gap: 10,
+        }}
+      >
         <div style={{ flex: 1, height: 1, background: "var(--sep)" }} />
         <span className="small muted" style={{ fontWeight: 600, fontSize: 12 }}>
           {t("Coach Portal")}
@@ -321,11 +328,11 @@ export default function Login() {
       </Button>
       <div style={{ height: 10 }} />
 
-      {canGuest && (
+      {/* {canGuest && (
         <Button variant="ghost" className="dim" onClick={() => setGuest(true)}>
           {t("Continue without account")}
         </Button>
-      )}
+      )} */}
       <div className="dim small" style={{ marginTop: 26, lineHeight: 1.5 }}>
         {pwOn
           ? t(

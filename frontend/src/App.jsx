@@ -51,6 +51,7 @@ import CoachChat from "./views/CoachChat.jsx";
 import CoachIntake from "./views/CoachIntake.jsx";
 import CoachSetup from "./views/CoachSetup.jsx";
 import CoachDashboard from "./views/CoachPanel/CoachDashboard.jsx";
+import CoachCreateAthlete from "./views/CoachPanel/CoachCreateAthlete.jsx";
 import AthleteDiet from "./views/AthleteDiet.jsx";
 
 // last known scrollY per route, so back-navigation can put the page where it was
@@ -233,6 +234,7 @@ function Shell() {
           ) : isCoach ? (
             <Routes>
               <Route path="/coach-panel" element={<CoachDashboard />} />
+              <Route path="/coach-panel/new-athlete" element={<CoachCreateAthlete />} />
               <Route path="/admin" element={<Admin />} />
               <Route path="/music" element={<Music />} />
               <Route path="/settings" element={<Settings />} />

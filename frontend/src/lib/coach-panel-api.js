@@ -15,6 +15,13 @@ export async function getCoachAthletes() {
   return api('/api/coach/athletes');
 }
 
+export async function createCoachAthlete({ name, password, days, status, email }) {
+  return api('/api/coach/athlete/create', {
+    method: 'POST',
+    body: JSON.stringify({ name, password, days, status, email })
+  });
+}
+
 export async function getCoachAthlete(id) {
   return api('/api/coach/athlete?id=' + encodeURIComponent(id));
 }
