@@ -59,8 +59,8 @@ const monday = date => { const d = new Date(date); d.setDate(d.getDate() - ((d.g
 // A full example profile: 12 weeks of Mon/Wed/Fri sessions on the starter plan, with linear
 // progression, the odd missed session, twice-weekly weigh-ins trending toward the goal, and
 // per-set effort ratings on most (not all) of it.
-export function buildDemoState() {
-  const rnd = rng(20260723)
+export function buildDemoState(seed = 20260723) {
+  const rnd = rng(seed)
   const [push, pull, legs] = starterRoutines()
   const byWeekday = { 1: push, 3: pull, 5: legs }
 

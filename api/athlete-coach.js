@@ -566,6 +566,18 @@ export function athleteCoachRoutes({
       };
       saveDb();
       json(res, 200, { ok: true, coachSettings: db.coachSettings });
+    },
+
+    // Seed full training/workout data
+    'POST /api/coach/seed-workouts': async (req, res) => {
+      if (!requireAdmin(req, res)) return;
+      try {
+        const { seedTraining } = await import('./seed-training.js');
+        seedTraining({ force: true });
+        json(res, 200, { ok: true, message: 'تمرینات تمام شاگردان با موفقیت سید شد' });
+      } catch (err) {
+        json(res, 500, { error: err.message });
+      }
     }
   };
 }
